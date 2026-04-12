@@ -1,7 +1,17 @@
 ---
 ---
-<section class="bg-charcoal px-6 py-28 text-cream md:py-32">
-  <div class="fade-in-up mx-auto max-w-[960px] text-center">
+<section class="relative overflow-hidden bg-charcoal px-6 py-28 text-cream md:py-32">
+  <!-- Background image overlay -->
+  <div class="absolute inset-0">
+    <img
+      src="/images/sf-skyline.jpg"
+      alt=""
+      class="h-full w-full object-cover opacity-15"
+      loading="lazy"
+    />
+    <div class="absolute inset-0 bg-charcoal/70"></div>
+  </div>
+  <div class="fade-in-up relative z-10 mx-auto max-w-[960px] text-center">
     <h2
       class="font-serif font-normal leading-tight"
       style="font-size: clamp(2.2rem, 4vw, 3.2rem); letter-spacing: -0.02em;"

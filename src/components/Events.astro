@@ -3,17 +3,20 @@ const events = [
   {
     title: 'Curated dinner salons',
     description: 'Small tables, good questions, no wallflowers. Designed so you leave knowing someone better than when you arrived.',
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>`,
+    image: '/images/dinner-salon.jpg',
+    imageAlt: 'Elegant dinner table with wine glasses and fine dining',
   },
   {
     title: 'Hosted cocktail evenings',
     description: 'The energy of a great house party with the intention of a private club. Warm rooms, interesting people, easy introductions.',
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22h8"/><path d="M12 11v11"/><path d="M3 2l9 9 9-9"/><path d="M3 2v4c0 2.5 4 5 9 5s9-2.5 9-5V2"/></svg>`,
+    image: '/images/cocktail-evening.jpg',
+    imageAlt: 'Warm cocktail bar atmosphere with drinks',
   },
   {
     title: 'Small cultural gatherings',
     description: 'Gallery visits, fireside talks, and outings that give people something to connect over beyond the usual small talk.',
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+    image: '/images/cultural-event.jpg',
+    imageAlt: 'People enjoying a cultural gathering',
   },
 ];
 ---
@@ -35,15 +38,24 @@ const events = [
       </p>
     </div>
 
-    <!-- Event cards -->
+    <!-- Event cards with images -->
     <div class="fade-in-up mx-auto mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {events.map((event) => (
-        <div class="group rounded-2xl border border-divider bg-warm-white p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-          <div class="mb-5 text-gold" set:html={event.icon} />
-          <h3 class="mb-3 font-serif text-xl text-charcoal">{event.title}</h3>
-          <p class="text-sm font-light leading-relaxed text-muted" style="line-height: 1.75;">
-            {event.description}
-          </p>
+        <div class="group overflow-hidden rounded-2xl border border-divider bg-warm-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+          <div class="h-48 overflow-hidden">
+            <img
+              src={event.image}
+              alt={event.imageAlt}
+              class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              loading="lazy"
+            />
+          </div>
+          <div class="p-8">
+            <h3 class="mb-3 font-serif text-xl text-charcoal">{event.title}</h3>
+            <p class="text-sm font-light leading-relaxed text-muted" style="line-height: 1.75;">
+              {event.description}
+            </p>
+          </div>
         </div>
       ))}
     </div>

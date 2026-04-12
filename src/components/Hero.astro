@@ -1,6 +1,6 @@
 ---
 ---
-<section class="flex min-h-screen items-center justify-center bg-warm-white px-6 pt-20">
+<section class="relative flex min-h-screen items-center justify-center overflow-hidden bg-warm-white px-6 pt-20">
   <div class="mx-auto max-w-[960px] text-center">
     <!-- Eyebrow -->
     <p class="mb-6 text-xs font-semibold uppercase tracking-[0.18em] text-gold">
@@ -45,5 +45,16 @@
     <p class="mt-6 text-xs font-light tracking-wide text-muted">
       Interview-based membership. Limited founding spots.
     </p>
+  </div>
+
+  <!-- Hero lifestyle image strip -->
+  <div class="absolute bottom-0 left-0 right-0 h-[280px] overflow-hidden md:h-[340px]">
+    <div class="absolute inset-0 bg-gradient-to-b from-warm-white via-warm-white/80 to-transparent z-10"></div>
+    <img
+      src="/images/social-gathering.jpg"
+      alt="Friends enjoying a social gathering"
+      class="h-full w-full object-cover object-center opacity-40"
+      loading="lazy"
+    />
   </div>
 </section>
