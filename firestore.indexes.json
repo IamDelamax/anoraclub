@@ -1,0 +1,16 @@
+[
+  {
+    "collectionGroup": "applications",
+    "queryScope": "COLLECTION",
+    "fields": [
+      { "fieldPath": "createdAt", "order": "DESCENDING" }
+    ]
+  },
+  {
+    "collectionGroup": "nominations",
+    "queryScope": "COLLECTION",
+    "fields": [
+      { "fieldPath": "createdAt", "order": "DESCENDING" }
+    ]
+  }
+]

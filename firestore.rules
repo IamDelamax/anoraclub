@@ -1,0 +1,22 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Applications: allow anyone to create, only admins can read/update/delete
+    match /applications/{document=**} {
+      allow create: if true;
+      allow read, update, delete: if false;
+    }
+
+    // Nominations: allow anyone to create, only admins can read/update/delete
+    match /nominations/{document=**} {
+      allow create: if true;
+      allow read, update, delete: if false;
+    }
+
+    // Deny everything else
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

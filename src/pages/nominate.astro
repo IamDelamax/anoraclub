@@ -14,7 +14,7 @@ import Footer from '../components/Footer.astro';
   <section class="flex min-h-screen items-center justify-center bg-warm-white px-6 pt-24 pb-20">
     <div class="mx-auto w-full max-w-[700px]">
       <!-- Header -->
-      <div class="mb-10 text-center">
+      <div id="nominate-header" class="mb-10 text-center">
         <p class="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-gold">
           Nominate a Friend
         </p>
@@ -61,9 +61,13 @@ import Footer from '../components/Footer.astro';
             class="w-full resize-none rounded-xl border border-divider bg-cream px-4 py-3 text-sm text-charcoal outline-none transition-colors focus:border-gold"></textarea>
         </div>
 
+        <!-- Error message -->
+        <div id="nominate-error" class="hidden rounded-xl border border-red-200 bg-red-50 p-4 text-center text-sm text-red-600"></div>
+
         <div class="pt-4 text-center">
           <button
             type="submit"
+            id="nominate-submit"
             class="rounded-full bg-charcoal px-10 py-3.5 text-sm font-medium text-cream transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
           >
             Submit Nomination
@@ -88,13 +92,47 @@ import Footer from '../components/Footer.astro';
   </section>
 
   <Footer />
-
-  <script is:inline>
-    document.getElementById('nominate-form')?.addEventListener('submit', function(e) {
-      e.preventDefault();
-      this.style.display = 'none';
-      document.getElementById('nominate-success').classList.remove('hidden');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  </script>
 </Layout>
+
+<script>
+  import { db } from '../lib/firebase';
+  import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+
+  const form = document.getElementById('nominate-form') as HTMLFormElement;
+  const submitBtn = document.getElementById('nominate-submit') as HTMLButtonElement;
+  const errorDiv = document.getElementById('nominate-error') as HTMLDivElement;
+  const successDiv = document.getElementById('nominate-success') as HTMLDivElement;
+  const headerDiv = document.getElementById('nominate-header') as HTMLDivElement;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorDiv.classList.add('hidden');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+
+    const formData = new FormData(form);
+
+    try {
+      await addDoc(collection(db, 'nominations'), {
+        nominatorName: formData.get('your_name'),
+        nominatorEmail: formData.get('your_email'),
+        friendName: formData.get('friend_name'),
+        friendContact: formData.get('friend_contact'),
+        reason: formData.get('why'),
+        createdAt: serverTimestamp(),
+        status: 'pending',
+      });
+
+      form.style.display = 'none';
+      headerDiv.style.display = 'none';
+      successDiv.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      console.error('Error submitting nomination:', err);
+      errorDiv.textContent = 'Something went wrong. Please try again.';
+      errorDiv.classList.remove('hidden');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Nomination';
+    }
+  });
+</script>
