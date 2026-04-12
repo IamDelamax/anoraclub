@@ -1,0 +1,51 @@
+---
+const events = [
+  {
+    title: 'Curated dinner salons',
+    description: 'Small tables, good questions, no wallflowers. Designed so you leave knowing someone better than when you arrived.',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>`,
+  },
+  {
+    title: 'Hosted cocktail evenings',
+    description: 'The energy of a great house party with the intention of a private club. Warm rooms, interesting people, easy introductions.',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22h8"/><path d="M12 11v11"/><path d="M3 2l9 9 9-9"/><path d="M3 2v4c0 2.5 4 5 9 5s9-2.5 9-5V2"/></svg>`,
+  },
+  {
+    title: 'Small cultural gatherings',
+    description: 'Gallery visits, fireside talks, and outings that give people something to connect over beyond the usual small talk.',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+  },
+];
+---
+<section id="events" class="bg-cream px-6 py-28 md:py-32">
+  <div class="mx-auto max-w-[1100px]">
+    <!-- Label -->
+    <div class="fade-in-up text-center">
+      <p class="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-gold">
+        Experiences
+      </p>
+      <h2
+        class="font-serif font-normal leading-tight"
+        style="font-size: clamp(2.2rem, 4vw, 3.2rem); letter-spacing: -0.02em;"
+      >
+        Events designed for chemistry, not just attendance.
+      </h2>
+      <p class="mx-auto mt-4 max-w-2xl text-base font-light text-muted" style="line-height: 1.75;">
+        We host experiences that make it easier to actually talk, observe, and connect.
+      </p>
+    </div>
+
+    <!-- Event cards -->
+    <div class="fade-in-up mx-auto mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {events.map((event) => (
+        <div class="group rounded-2xl border border-divider bg-warm-white p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+          <div class="mb-5 text-gold" set:html={event.icon} />
+          <h3 class="mb-3 font-serif text-xl text-charcoal">{event.title}</h3>
+          <p class="text-sm font-light leading-relaxed text-muted" style="line-height: 1.75;">
+            {event.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

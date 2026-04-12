@@ -1,0 +1,119 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Apply — Anora Club"
+  description="Apply for membership at Anora Club, a private social club for ambitious singles in San Francisco."
+  canonicalPath="/apply"
+>
+  <Nav />
+
+  <section class="flex min-h-screen items-center justify-center bg-warm-white px-6 pt-24 pb-20">
+    <div class="mx-auto w-full max-w-[700px]">
+      <!-- Header -->
+      <div class="mb-10 text-center">
+        <p class="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-gold">
+          Membership Application
+        </p>
+        <h1
+          class="font-serif font-normal leading-tight"
+          style="font-size: clamp(2.2rem, 4vw, 3.2rem); letter-spacing: -0.02em;"
+        >
+          Tell us about yourself.
+        </h1>
+        <p class="mx-auto mt-4 max-w-md text-base font-light text-muted" style="line-height: 1.75;">
+          It takes about five minutes. We review every application personally.
+        </p>
+      </div>
+
+      <!-- Application form -->
+      <form id="apply-form" class="space-y-6">
+        <div>
+          <label for="name" class="mb-1.5 block text-xs font-medium uppercase tracking-[0.12em] text-muted">Full Name</label>
+          <input type="text" id="name" name="name" required
+            class="w-full rounded-xl border border-divider bg-cream px-4 py-3 text-sm text-charcoal outline-none transition-colors focus:border-gold" />
+        </div>
+
+        <div>
+          <label for="email" class="mb-1.5 block text-xs font-medium uppercase tracking-[0.12em] text-muted">Email</label>
+          <input type="email" id="email" name="email" required
+            class="w-full rounded-xl border border-divider bg-cream px-4 py-3 text-sm text-charcoal outline-none transition-colors focus:border-gold" />
+        </div>
+
+        <div>
+          <label for="age" class="mb-1.5 block text-xs font-medium uppercase tracking-[0.12em] text-muted">Age</label>
+          <input type="number" id="age" name="age" min="18" max="99" required
+            class="w-full rounded-xl border border-divider bg-cream px-4 py-3 text-sm text-charcoal outline-none transition-colors focus:border-gold" />
+        </div>
+
+        <div>
+          <label for="occupation" class="mb-1.5 block text-xs font-medium uppercase tracking-[0.12em] text-muted">What do you do?</label>
+          <input type="text" id="occupation" name="occupation" required placeholder="Occupation or short bio"
+            class="w-full rounded-xl border border-divider bg-cream px-4 py-3 text-sm text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/40" />
+        </div>
+
+        <div>
+          <label for="looking_for" class="mb-1.5 block text-xs font-medium uppercase tracking-[0.12em] text-muted">What are you looking for?</label>
+          <textarea id="looking_for" name="looking_for" rows="3" required
+            class="w-full resize-none rounded-xl border border-divider bg-cream px-4 py-3 text-sm text-charcoal outline-none transition-colors focus:border-gold"></textarea>
+        </div>
+
+        <div>
+          <label for="referral" class="mb-1.5 block text-xs font-medium uppercase tracking-[0.12em] text-muted">How did you hear about Anora Club?</label>
+          <input type="text" id="referral" name="referral" required
+            class="w-full rounded-xl border border-divider bg-cream px-4 py-3 text-sm text-charcoal outline-none transition-colors focus:border-gold" />
+        </div>
+
+        <div class="grid gap-6 sm:grid-cols-2">
+          <div>
+            <label for="instagram" class="mb-1.5 block text-xs font-medium uppercase tracking-[0.12em] text-muted">Instagram Handle <span class="font-light normal-case tracking-normal text-muted/60">(optional)</span></label>
+            <input type="text" id="instagram" name="instagram" placeholder="@username"
+              class="w-full rounded-xl border border-divider bg-cream px-4 py-3 text-sm text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/40" />
+          </div>
+          <div>
+            <label for="linkedin" class="mb-1.5 block text-xs font-medium uppercase tracking-[0.12em] text-muted">LinkedIn URL <span class="font-light normal-case tracking-normal text-muted/60">(optional)</span></label>
+            <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/..."
+              class="w-full rounded-xl border border-divider bg-cream px-4 py-3 text-sm text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/40" />
+          </div>
+        </div>
+
+        <div class="pt-4 text-center">
+          <button
+            type="submit"
+            class="rounded-full bg-charcoal px-10 py-3.5 text-sm font-medium text-cream transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            Submit Application
+          </button>
+          <p class="mt-4 text-xs font-light text-muted">
+            We'll review your application and reach out within a few days.
+          </p>
+        </div>
+      </form>
+
+      <!-- Success message (hidden by default) -->
+      <div id="apply-success" class="hidden py-20 text-center">
+        <h2 class="font-serif text-3xl text-charcoal" style="letter-spacing: -0.02em;">Thank you.</h2>
+        <p class="mt-4 text-base font-light text-muted" style="line-height: 1.75;">
+          We've received your application and will be in touch soon.
+        </p>
+        <a href="/" class="mt-8 inline-block text-sm font-medium text-gold transition-colors hover:text-charcoal">
+          &larr; Back to home
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+
+  <script is:inline>
+    document.getElementById('apply-form')?.addEventListener('submit', function(e) {
+      e.preventDefault();
+      this.style.display = 'none';
+      document.getElementById('apply-success').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</Layout>

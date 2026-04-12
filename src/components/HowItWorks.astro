@@ -1,0 +1,66 @@
+---
+const steps = [
+  {
+    number: '01',
+    title: 'Apply',
+    description: 'Tell us about your life, values, and what you\'re looking for. It takes five minutes and starts the conversation.',
+  },
+  {
+    number: '02',
+    title: 'Interview',
+    description: 'We screen for fit, sincerity, and community quality — not just résumé aesthetics. We want good humans, not just impressive ones.',
+  },
+  {
+    number: '03',
+    title: 'Join the club',
+    description: 'Accepted members get access to events, private community, and concierge onboarding. You\'ll feel the difference immediately.',
+  },
+  {
+    number: '04',
+    title: 'Meet naturally — and intentionally',
+    description: 'Come to dinners, salons, and social events. Receive personalized introductions when there\'s real potential.',
+  },
+  {
+    number: '05',
+    title: 'Build real momentum',
+    description: 'More context. Better rooms. Less wasted time. The kind of social life that actually moves things forward.',
+  },
+];
+---
+<section id="how" class="bg-alt-bg px-6 py-28 md:py-32">
+  <div class="mx-auto max-w-[960px]">
+    <!-- Label -->
+    <div class="fade-in-up text-center">
+      <p class="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-gold">
+        The Process
+      </p>
+      <h2
+        class="font-serif font-normal leading-tight"
+        style="font-size: clamp(2.2rem, 4vw, 3.2rem); letter-spacing: -0.02em;"
+      >
+        How Anora works
+      </h2>
+    </div>
+
+    <!-- Steps -->
+    <div class="mt-16 space-y-0">
+      {steps.map((step, i) => (
+        <div class={`fade-in-up flex flex-col gap-6 border-t border-divider py-10 md:flex-row md:items-start md:gap-12 ${i === steps.length - 1 ? 'border-b' : ''}`}>
+          <div class="shrink-0">
+            <span class="font-serif text-5xl text-gold/40 md:text-6xl" style="letter-spacing: -0.03em;">
+              {step.number}
+            </span>
+          </div>
+          <div>
+            <h3 class="mb-3 font-serif text-2xl text-charcoal" style="letter-spacing: -0.02em;">
+              {step.title}
+            </h3>
+            <p class="max-w-lg text-base font-light leading-relaxed text-muted" style="line-height: 1.75;">
+              {step.description}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
