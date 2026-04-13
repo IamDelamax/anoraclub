@@ -1,0 +1,75 @@
+---
+const recaps = [
+  {
+    month: 'March 2026',
+    headline: '32 members. One long table. A jazz trio nobody wanted to stop listening to.',
+    body: 'Our first seated dinner at a hidden SoMa loft. The chef did a seven-course Italian menu with wines from a tiny producer in Piedmont. Three couples exchanged numbers. Two are still talking.',
+    stat: '32 members · 7 courses · 1 very long night',
+    image: '/images/event-dinner.jpg',
+  },
+  {
+    month: 'February 2026',
+    headline: 'A rooftop, a sunset, and 40 people who didn\'t check their phones once.',
+    body: 'Cocktail evening overlooking the Bay. We brought in a bartender from a speakeasy in Tokyo — he made drinks nobody had tried before. The kind of night where you forget what time it is.',
+    stat: '40 members · Nob Hill rooftop · Sunset to midnight',
+    image: '/images/event-cocktail.jpg',
+  },
+];
+---
+
+<section class="bg-cream px-6 py-28 md:py-32">
+  <div class="mx-auto max-w-[1100px]">
+    <!-- Header -->
+    <div class="fade-in-up text-center mb-14">
+      <p class="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-gold">
+        Recently at Anora
+      </p>
+      <h2
+        class="font-serif font-normal leading-tight"
+        style="font-size: clamp(2rem, 3.5vw, 2.8rem); letter-spacing: -0.02em;"
+      >
+        What you missed.
+      </h2>
+    </div>
+
+    <!-- Recap cards -->
+    <div class="fade-in-up grid gap-8 md:grid-cols-2">
+      {recaps.map((recap) => (
+        <div class="group overflow-hidden rounded-2xl border border-divider bg-warm-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+          <!-- Image -->
+          <div class="h-52 overflow-hidden">
+            <img
+              src={recap.image}
+              alt=""
+              class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              loading="lazy"
+            />
+          </div>
+          <!-- Content -->
+          <div class="p-8">
+            <p class="text-xs font-semibold uppercase tracking-[0.15em] text-gold mb-3">
+              {recap.month}
+            </p>
+            <h3 class="font-serif text-xl leading-snug text-charcoal mb-3" style="letter-spacing: -0.01em;">
+              {recap.headline}
+            </h3>
+            <p class="text-sm font-light text-muted mb-4" style="line-height: 1.75;">
+              {recap.body}
+            </p>
+            <p class="text-xs font-medium tracking-wide text-muted/60 uppercase">
+              {recap.stat}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Teaser -->
+    <div class="fade-in-up mt-12 text-center">
+      <p class="font-serif text-lg italic text-muted" style="line-height: 1.75;">
+        Want to be in the room next time?
+        <a href="/apply" class="underline decoration-gold/40 underline-offset-4 hover:decoration-gold transition-colors">Apply now.</a>
+      </p>
+    </div>
+  </div>
+</section>

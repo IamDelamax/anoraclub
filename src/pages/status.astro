@@ -1,0 +1,199 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Application Status — Anora Club"
+  description="Check the status of your Anora Club application."
+  canonicalPath="/status"
+>
+  <Nav />
+
+  <main class="bg-cream px-6 pt-32 pb-28 md:pt-40 md:pb-36">
+    <div class="mx-auto max-w-[520px]">
+      <!-- Header -->
+      <div class="fade-in-up text-center mb-12">
+        <h1
+          class="font-serif font-normal leading-tight"
+          style="font-size: clamp(2rem, 4vw, 2.8rem); letter-spacing: -0.03em;"
+        >
+          Check your application.
+        </h1>
+        <p class="mt-4 text-sm font-light text-muted" style="line-height: 1.75;">
+          Enter the email you applied with and we'll show you where things stand.
+        </p>
+      </div>
+
+      <!-- Form -->
+      <div class="fade-in-up">
+        <form id="status-form" class="flex flex-col gap-3 sm:flex-row">
+          <input
+            type="email"
+            id="status-email"
+            placeholder="Your email address"
+            required
+            class="flex-1 rounded-full border border-divider bg-warm-white px-5 py-3.5 text-sm font-light text-charcoal placeholder:text-muted/50 focus:border-gold focus:outline-none"
+          />
+          <button
+            type="submit"
+            id="status-submit"
+            class="rounded-full bg-charcoal px-7 py-3.5 text-sm font-medium text-cream transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            Check Status
+          </button>
+        </form>
+      </div>
+
+      <!-- Result: Found -->
+      <div id="status-result" class="mt-10 hidden">
+        <div class="rounded-2xl border border-divider bg-warm-white p-8 text-center">
+          <p class="text-xs font-semibold uppercase tracking-[0.15em] text-gold mb-4">
+            Application Found
+          </p>
+          <p class="font-serif text-xl text-charcoal mb-1" id="status-name"></p>
+          <p class="text-xs font-light text-muted mb-6" id="status-date"></p>
+
+          <!-- Status badge -->
+          <div class="inline-flex items-center gap-2 rounded-full px-5 py-2" id="status-badge">
+            <span class="relative flex h-2 w-2" id="status-dot">
+              <span class="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" id="status-dot-ping"></span>
+              <span class="relative inline-flex h-2 w-2 rounded-full" id="status-dot-solid"></span>
+            </span>
+            <span class="text-sm font-medium" id="status-label"></span>
+          </div>
+
+          <p class="mt-5 text-sm font-light text-muted" style="line-height: 1.75;" id="status-message"></p>
+
+          <!-- Queue position -->
+          <p class="mt-4 text-xs font-light text-muted/60" id="status-queue"></p>
+        </div>
+      </div>
+
+      <!-- Result: Not found -->
+      <div id="status-not-found" class="mt-10 hidden">
+        <div class="rounded-2xl border border-divider bg-warm-white p-8 text-center">
+          <p class="font-serif text-lg text-charcoal mb-2">No application found.</p>
+          <p class="text-sm font-light text-muted" style="line-height: 1.75;">
+            We don't have an application with that email. Double-check the address, or
+            <a href="/apply" class="underline decoration-gold/40 underline-offset-4 hover:decoration-gold transition-colors">apply now</a>.
+          </p>
+        </div>
+      </div>
+
+      <!-- Error -->
+      <div id="status-error" class="mt-6 hidden text-center">
+        <p class="text-sm text-red-600/80">Something went wrong. Please try again.</p>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  import { db } from '../lib/firebase';
+  import { collection, query, where, getDocs } from 'firebase/firestore';
+
+  const form = document.getElementById('status-form') as HTMLFormElement;
+  const emailInput = document.getElementById('status-email') as HTMLInputElement;
+  const submitBtn = document.getElementById('status-submit') as HTMLButtonElement;
+  const resultEl = document.getElementById('status-result');
+  const notFoundEl = document.getElementById('status-not-found');
+  const errorEl = document.getElementById('status-error');
+
+  const statusConfig: Record<string, { color: string; bg: string; label: string; message: string }> = {
+    pending: {
+      color: 'text-amber-600',
+      bg: 'bg-amber-50',
+      label: 'In Review',
+      message: 'Your application is in our review queue. We review applications weekly and typically respond within 48 hours.',
+    },
+    reviewed: {
+      color: 'text-blue-600',
+      bg: 'bg-blue-50',
+      label: 'Under Consideration',
+      message: 'Your application has been reviewed and is being discussed by our membership committee. We\'ll be in touch soon.',
+    },
+    accepted: {
+      color: 'text-green-600',
+      bg: 'bg-green-50',
+      label: 'Accepted',
+      message: 'Congratulations — you\'ve been accepted. Check your email for next steps and your invitation to our next event.',
+    },
+    declined: {
+      color: 'text-muted',
+      bg: 'bg-alt-bg',
+      label: 'Not Selected',
+      message: 'We weren\'t able to offer membership at this time. You\'re welcome to reapply after 6 months.',
+    },
+    interview: {
+      color: 'text-purple-600',
+      bg: 'bg-purple-50',
+      label: 'Interview Scheduled',
+      message: 'We\'d like to get to know you better. Check your email for interview details and scheduling.',
+    },
+  };
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = emailInput.value.trim().toLowerCase();
+    if (!email) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Checking...';
+    resultEl?.classList.add('hidden');
+    notFoundEl?.classList.add('hidden');
+    errorEl?.classList.add('hidden');
+
+    try {
+      const q = query(collection(db, 'applications'), where('email', '==', email));
+      const snapshot = await getDocs(q);
+
+      if (snapshot.empty) {
+        notFoundEl?.classList.remove('hidden');
+      } else {
+        const doc = snapshot.docs[0];
+        const data = doc.data();
+        const status = data.status || 'pending';
+        const config = statusConfig[status] || statusConfig.pending;
+
+        // Fill in data
+        const nameEl = document.getElementById('status-name');
+        const dateEl = document.getElementById('status-date');
+        const badgeEl = document.getElementById('status-badge');
+        const labelEl = document.getElementById('status-label');
+        const messageEl = document.getElementById('status-message');
+        const queueEl = document.getElementById('status-queue');
+        const dotPing = document.getElementById('status-dot-ping');
+        const dotSolid = document.getElementById('status-dot-solid');
+
+        if (nameEl) nameEl.textContent = `${data.firstName || data.name || ''} ${data.lastName || ''}`.trim();
+        if (dateEl && data.createdAt) {
+          const date = data.createdAt.toDate ? data.createdAt.toDate() : new Date(data.createdAt);
+          dateEl.textContent = `Applied ${date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`;
+        }
+        if (badgeEl) badgeEl.className = `inline-flex items-center gap-2 rounded-full px-5 py-2 ${config.bg}`;
+        if (labelEl) { labelEl.textContent = config.label; labelEl.className = `text-sm font-medium ${config.color}`; }
+        if (messageEl) messageEl.textContent = config.message;
+        if (queueEl && data.queueNumber) queueEl.textContent = `Queue position: #${data.queueNumber}`;
+        if (dotPing) dotPing.className = `absolute inline-flex h-full w-full animate-ping rounded-full opacity-75 ${config.color.replace('text-', 'bg-')}`;
+        if (dotSolid) dotSolid.className = `relative inline-flex h-2 w-2 rounded-full ${config.color.replace('text-', 'bg-')}`;
+
+        resultEl?.classList.remove('hidden');
+      }
+
+      // GA4 event
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'status_checked', { found: !snapshot.empty });
+      }
+    } catch (err) {
+      console.error('Status check error:', err);
+      errorEl?.classList.remove('hidden');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Check Status';
+    }
+  });
+</script>
