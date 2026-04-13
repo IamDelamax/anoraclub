@@ -42,6 +42,8 @@
         (entries) => {
           if (entries[0].isIntersecting) {
             mobileCTA.classList.add('translate-y-full');
+          } else {
+            mobileCTA.classList.remove('translate-y-full');
           }
         },
         { threshold: 0.1 }
