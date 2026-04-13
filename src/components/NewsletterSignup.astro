@@ -75,7 +75,7 @@
       await setDoc(subscriberRef, {
         email,
         source: window.location.pathname,
-        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
         status: 'active',
       }, { merge: true });
 
