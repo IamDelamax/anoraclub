@@ -292,6 +292,7 @@ import Layout from '../layouts/Layout.astro';
     // Clear all inputs
     document.querySelectorAll('.nom-step input, .nom-step textarea').forEach((el) => {
       (el as HTMLInputElement).value = '';
+      el.dispatchEvent(new Event('input', { bubbles: true }));
     });
     // Reset to step 1 (skip welcome)
     const current = document.querySelector(`.nom-step[data-step="${currentStep}"]`) as HTMLElement;

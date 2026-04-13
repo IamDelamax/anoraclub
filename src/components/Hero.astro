@@ -95,6 +95,10 @@
         const spots = spotsDoc.data().remaining || 28;
         const spotsEl = document.getElementById('spots-remaining');
         if (spotsEl) spotsEl.textContent = String(spots);
+        const ctaSpotsEl = document.getElementById('cta-spots-remaining');
+        if (ctaSpotsEl) ctaSpotsEl.textContent = String(spots);
+        const mobileSpotsEl = document.getElementById('mobile-spots');
+        if (mobileSpotsEl) mobileSpotsEl.textContent = String(spots);
       }
     } catch (err) {
       // Silently fail — keep hardcoded defaults
