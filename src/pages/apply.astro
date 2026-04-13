@@ -455,7 +455,7 @@ import Layout from '../layouts/Layout.astro';
       await addDoc(collection(db, 'applications'), {
         firstName: formData.firstName || '',
         lastName: formData.lastName || '',
-        email: formData.email || '',
+        email: (formData.email || '').toLowerCase(),
         age: formData.age || '',
         gender: formData.gender || '',
         whatYouDo: formData.whatYouDo || '',
