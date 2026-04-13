@@ -236,9 +236,9 @@ const categories = ['All', 'Anora', 'Social', 'Art', 'Music', 'Outdoors', 'Film'
         // Update button styles
         buttons.forEach((b) => {
           b.classList.remove('bg-charcoal', 'text-cream');
-          b.classList.add('border', 'border-divider', 'text-muted');
+          b.classList.add('border', 'border-divider', 'text-muted', 'hover:border-charcoal', 'hover:text-charcoal');
         });
-        btn.classList.remove('border', 'border-divider', 'text-muted');
+        btn.classList.remove('border', 'border-divider', 'text-muted', 'hover:border-charcoal', 'hover:text-charcoal');
         btn.classList.add('bg-charcoal', 'text-cream');
 
         // Filter cards
