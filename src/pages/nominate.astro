@@ -250,7 +250,7 @@ import Layout from '../layouts/Layout.astro';
     const inputs = step.querySelectorAll('input, textarea');
     inputs.forEach((el) => {
       const input = el as HTMLInputElement | HTMLTextAreaElement;
-      if (input.name && input.value) {
+      if (input.name) {
         formData[input.name] = input.value.trim();
       }
     });
