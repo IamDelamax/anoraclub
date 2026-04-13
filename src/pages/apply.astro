@@ -274,6 +274,8 @@ import Layout from '../layouts/Layout.astro';
   const TOTAL_STEPS = 8;
   let currentStep = 0;
   let formData: Record<string, string> = {};
+  let isSubmitting = false;
+  let autoSubmitTimeout: ReturnType<typeof setTimeout> | null = null;
 
   const progressBar = document.getElementById('progress-bar') as HTMLDivElement;
   const stepLabel = document.getElementById('step-label') as HTMLSpanElement;
@@ -422,9 +424,10 @@ import Layout from '../layouts/Layout.astro';
         continueBtn.classList.remove('hidden');
       } else {
         refField.classList.add('hidden');
-        continueBtn.classList.remove('hidden');
+        continueBtn.classList.add('hidden');
         // Auto-advance for non-member options after brief delay
-        setTimeout(() => {
+        if (autoSubmitTimeout) clearTimeout(autoSubmitTimeout);
+        autoSubmitTimeout = setTimeout(() => {
           collectStepData(currentStep);
           submitApplication();
         }, 300);
@@ -433,6 +436,9 @@ import Layout from '../layouts/Layout.astro';
   });
 
   async function submitApplication() {
+    if (isSubmitting) return;
+    isSubmitting = true;
+    if (autoSubmitTimeout) clearTimeout(autoSubmitTimeout);
     collectStepData(currentStep);
 
     try {
@@ -473,6 +479,7 @@ import Layout from '../layouts/Layout.astro';
       goToStep(7);
     } catch (err) {
       console.error('Error submitting:', err);
+      isSubmitting = false;
       errorDiv.textContent = 'Something went wrong. Please try again.';
       errorDiv.classList.remove('hidden');
       setTimeout(() => errorDiv.classList.add('hidden'), 4000);
