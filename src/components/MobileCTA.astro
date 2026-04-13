@@ -1,0 +1,59 @@
+---
+---
+<!-- Floating mobile CTA -->
+<div id="mobile-cta" class="fixed bottom-0 left-0 right-0 z-40 translate-y-full transition-transform duration-300 md:hidden">
+  <a
+    href="/apply"
+    class="mobile-cta-link flex items-center justify-center gap-2 bg-charcoal px-6 py-4 text-center text-sm font-medium text-cream shadow-[0_-4px_20px_rgba(0,0,0,0.1)]"
+    data-cta="mobile-sticky"
+  >
+    Apply Now — <span id="mobile-spots">28</span> spots left
+  </a>
+</div>
+
+<script>
+  const mobileCTA = document.getElementById('mobile-cta');
+  const heroSection = document.getElementById('hero');
+  const ctaSection = document.querySelector('section:has(#cta-spots-remaining)')
+    || document.querySelector('.bg-charcoal:last-of-type');
+
+  if (mobileCTA && heroSection) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Show when hero is NOT visible
+        const heroVisible = entries.some(
+          (e) => e.target === heroSection && e.isIntersecting
+        );
+
+        if (heroVisible) {
+          mobileCTA.classList.add('translate-y-full');
+        } else {
+          mobileCTA.classList.remove('translate-y-full');
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(heroSection);
+
+    // Also hide when final CTA is visible
+    if (ctaSection) {
+      const ctaObserver = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            mobileCTA.classList.add('translate-y-full');
+          }
+        },
+        { threshold: 0.1 }
+      );
+      ctaObserver.observe(ctaSection);
+    }
+  }
+
+  // Track click
+  document.querySelector('.mobile-cta-link')?.addEventListener('click', () => {
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'cta_clicked', { cta: 'mobile-sticky', section: 'floating' });
+    }
+  });
+</script>

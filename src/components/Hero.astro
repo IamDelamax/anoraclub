@@ -1,6 +1,6 @@
 ---
 ---
-<section class="relative flex min-h-screen items-center justify-center overflow-hidden bg-warm-white px-6 pt-20">
+<section id="hero" class="relative flex min-h-screen items-center justify-center overflow-hidden bg-warm-white px-6 pt-20">
   <div class="relative z-20 mx-auto max-w-[960px] text-center">
     <!-- Eyebrow -->
     <p class="mb-6 text-xs font-semibold uppercase tracking-[0.18em] text-gold">
@@ -29,13 +29,15 @@
     <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
       <a
         href="/apply"
-        class="rounded-full bg-charcoal px-8 py-3.5 text-sm font-medium text-cream transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+        class="hero-cta rounded-full bg-charcoal px-8 py-3.5 text-sm font-medium text-cream transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+        data-cta="hero-apply"
       >
         Apply for Membership
       </a>
       <a
         href="/nominate"
-        class="rounded-full border border-charcoal px-8 py-3.5 text-sm font-medium text-charcoal transition-all duration-200 hover:-translate-y-0.5 hover:bg-charcoal hover:text-cream"
+        class="hero-cta rounded-full border border-charcoal px-8 py-3.5 text-sm font-medium text-charcoal transition-all duration-200 hover:-translate-y-0.5 hover:bg-charcoal hover:text-cream"
+        data-cta="hero-nominate"
       >
         Nominate a Friend
       </a>
@@ -45,11 +47,25 @@
     <p class="mt-6 text-xs font-light tracking-wide text-muted">
       Interview-based membership. Limited founding spots.
     </p>
+
+    <!-- Live counter -->
+    <div class="mt-4 flex flex-col items-center gap-1.5">
+      <p class="flex items-center gap-2 text-xs font-light text-muted">
+        <span class="live-dot relative flex h-2 w-2">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
+          <span class="relative inline-flex h-2 w-2 rounded-full bg-green-500"></span>
+        </span>
+        <span id="waitlist-count">847</span> people on the waitlist &middot; <span id="spots-remaining">28</span> spots remaining in the founding class
+      </p>
+      <p class="text-[11px] font-light text-muted/60">
+        Applications reviewed weekly. Average response time: 48 hours.
+      </p>
+    </div>
   </div>
 
   <!-- Hero lifestyle image strip -->
   <div class="absolute bottom-0 left-0 right-0 h-[280px] overflow-hidden md:h-[340px]">
-    <div class="absolute inset-0 bg-gradient-to-b from-warm-white via-warm-white/80 to-transparent z-10"></div>
+    <div class="absolute inset-0 z-10 bg-gradient-to-b from-warm-white via-warm-white/80 to-transparent"></div>
     <img
       src="/images/cocktail-evening-new.jpg"
       alt="Overhead view of an elegant restaurant with diners"
@@ -58,3 +74,42 @@
     />
   </div>
 </section>
+
+<script>
+  import { db } from '../lib/firebase';
+  import { doc, getDoc } from 'firebase/firestore';
+
+  async function loadCounter() {
+    try {
+      const counterRef = doc(db, 'counters', 'applications');
+      const counterDoc = await getDoc(counterRef);
+      if (counterDoc.exists()) {
+        const count = counterDoc.data().count || 847;
+        const waitlistEl = document.getElementById('waitlist-count');
+        if (waitlistEl) waitlistEl.textContent = String(count);
+      }
+
+      const spotsRef = doc(db, 'counters', 'spots');
+      const spotsDoc = await getDoc(spotsRef);
+      if (spotsDoc.exists()) {
+        const spots = spotsDoc.data().remaining || 28;
+        const spotsEl = document.getElementById('spots-remaining');
+        if (spotsEl) spotsEl.textContent = String(spots);
+      }
+    } catch (err) {
+      // Silently fail — keep hardcoded defaults
+    }
+  }
+
+  loadCounter();
+
+  // Track CTA clicks
+  document.querySelectorAll('.hero-cta').forEach((el) => {
+    el.addEventListener('click', () => {
+      const ctaName = (el as HTMLElement).dataset.cta;
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'cta_clicked', { cta: ctaName, section: 'hero' });
+      }
+    });
+  });
+</script>
