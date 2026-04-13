@@ -420,6 +420,7 @@ import Layout from '../layouts/Layout.astro';
       const continueBtn = document.getElementById('referral-continue') as HTMLButtonElement;
 
       if (value === 'A current member') {
+        if (autoSubmitTimeout) clearTimeout(autoSubmitTimeout);
         refField.classList.remove('hidden');
         continueBtn.classList.remove('hidden');
         continueBtn.disabled = false;

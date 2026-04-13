@@ -289,6 +289,7 @@ import Layout from '../layouts/Layout.astro';
   // Nominate another
   document.getElementById('nom-another')?.addEventListener('click', () => {
     formData = {};
+    isSubmitting = false;
     // Clear all inputs
     document.querySelectorAll('.nom-step input, .nom-step textarea').forEach((el) => {
       (el as HTMLInputElement).value = '';
@@ -307,7 +308,10 @@ import Layout from '../layouts/Layout.astro';
     }, 100);
   });
 
+  let isSubmitting = false;
   async function submitNomination() {
+    if (isSubmitting) return;
+    isSubmitting = true;
     collectStepData(currentStep);
 
     try {
@@ -328,6 +332,7 @@ import Layout from '../layouts/Layout.astro';
       goToStep(4);
     } catch (err) {
       console.error('Error submitting nomination:', err);
+      isSubmitting = false;
       errorDiv.textContent = 'Something went wrong. Please try again.';
       errorDiv.classList.remove('hidden');
       setTimeout(() => errorDiv.classList.add('hidden'), 4000);
