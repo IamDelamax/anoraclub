@@ -18,33 +18,37 @@
     || document.querySelector('.bg-charcoal:last-of-type');
 
   if (mobileCTA && heroSection) {
-    const observer = new IntersectionObserver(
+    // Shared state to avoid observer conflicts on initial load
+    let heroVisible = true;
+    let ctaVisible = false;
+
+    function updateCTAVisibility() {
+      // Show mobile CTA only when hero is NOT visible AND bottom CTA is NOT visible
+      if (!heroVisible && !ctaVisible) {
+        mobileCTA.classList.remove('translate-y-full');
+      } else {
+        mobileCTA.classList.add('translate-y-full');
+      }
+    }
+
+    const heroObserver = new IntersectionObserver(
       (entries) => {
-        // Show when hero is NOT visible
-        const heroVisible = entries.some(
+        heroVisible = entries.some(
           (e) => e.target === heroSection && e.isIntersecting
         );
-
-        if (heroVisible) {
-          mobileCTA.classList.add('translate-y-full');
-        } else {
-          mobileCTA.classList.remove('translate-y-full');
-        }
+        updateCTAVisibility();
       },
       { threshold: 0.1 }
     );
 
-    observer.observe(heroSection);
+    heroObserver.observe(heroSection);
 
-    // Also hide when final CTA is visible
+    // Also hide when final CTA section is visible
     if (ctaSection) {
       const ctaObserver = new IntersectionObserver(
         (entries) => {
-          if (entries[0].isIntersecting) {
-            mobileCTA.classList.add('translate-y-full');
-          } else {
-            mobileCTA.classList.remove('translate-y-full');
-          }
+          ctaVisible = entries[0].isIntersecting;
+          updateCTAVisibility();
         },
         { threshold: 0.1 }
       );
