@@ -21,11 +21,10 @@ service cloud.firestore {
       allow write: if true;
     }
 
-    // Newsletter subscribers: allow create and read (for dupe checking)
+    // Newsletter subscribers: use email as doc ID, write-only (no read needed)
     match /newsletter_subscribers/{document=**} {
-      allow create: if true;
-      allow read: if true;
-      allow update, delete: if false;
+      allow create, update: if true;
+      allow read, delete: if false;
     }
 
     // Deny everything else

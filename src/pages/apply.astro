@@ -452,7 +452,7 @@ import Layout from '../layouts/Layout.astro';
       try {
         queueNumber = await runTransaction(db, async (transaction) => {
           const counterDoc = await transaction.get(counterRef);
-          const currentCount = counterDoc.exists() ? (counterDoc.data().count || 812) : 812;
+          const currentCount = counterDoc.exists() ? (counterDoc.data().count ?? 812) : 812;
           const newCount = currentCount + 1;
           transaction.set(counterRef, { count: newCount }, { merge: true });
           return newCount;

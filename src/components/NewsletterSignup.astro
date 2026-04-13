@@ -52,7 +52,7 @@
 
 <script>
   import { db } from '../lib/firebase';
-  import { collection, addDoc, query, where, getDocs, serverTimestamp } from 'firebase/firestore';
+  import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 
   const form = document.getElementById('newsletter-form') as HTMLFormElement;
   const emailInput = document.getElementById('newsletter-email') as HTMLInputElement;
@@ -70,18 +70,14 @@
     errorEl?.classList.add('hidden');
 
     try {
-      // Check for existing subscription
-      const q = query(collection(db, 'newsletter_subscribers'), where('email', '==', email));
-      const existing = await getDocs(q);
-
-      if (existing.empty) {
-        await addDoc(collection(db, 'newsletter_subscribers'), {
-          email,
-          source: window.location.pathname,
-          createdAt: serverTimestamp(),
-          status: 'active',
-        });
-      }
+      // Use email as document ID with set+merge for idempotent writes (no read needed)
+      const subscriberRef = doc(db, 'newsletter_subscribers', email);
+      await setDoc(subscriberRef, {
+        email,
+        source: window.location.pathname,
+        createdAt: serverTimestamp(),
+        status: 'active',
+      }, { merge: true });
 
       // Show success
       form.classList.add('hidden');

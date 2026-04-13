@@ -84,7 +84,7 @@
       const counterRef = doc(db, 'counters', 'applications');
       const counterDoc = await getDoc(counterRef);
       if (counterDoc.exists()) {
-        const count = counterDoc.data().count || 847;
+        const count = counterDoc.data().count ?? 847;
         const waitlistEl = document.getElementById('waitlist-count');
         if (waitlistEl) waitlistEl.textContent = String(count);
       }
@@ -92,7 +92,7 @@
       const spotsRef = doc(db, 'counters', 'spots');
       const spotsDoc = await getDoc(spotsRef);
       if (spotsDoc.exists()) {
-        const spots = spotsDoc.data().remaining || 28;
+        const spots = spotsDoc.data().remaining ?? 28;
         const spotsEl = document.getElementById('spots-remaining');
         if (spotsEl) spotsEl.textContent = String(spots);
         const ctaSpotsEl = document.getElementById('cta-spots-remaining');
