@@ -300,6 +300,7 @@ import Layout from '../layouts/Layout.astro';
     current?.classList.remove('active');
     currentStep = 1;
     const next = document.querySelector('.nom-step[data-step="1"]') as HTMLElement;
+    next?.classList.remove('exit-left');
     next?.classList.add('active');
     updateProgress();
     setTimeout(() => {
