@@ -103,34 +103,39 @@ import Footer from '../components/Footer.astro';
   const notFoundEl = document.getElementById('status-not-found');
   const errorEl = document.getElementById('status-error');
 
-  const statusConfig: Record<string, { color: string; bg: string; label: string; message: string }> = {
+  const statusConfig: Record<string, { color: string; bg: string; dotColor: string; label: string; message: string }> = {
     pending: {
       color: 'text-amber-600',
       bg: 'bg-amber-50',
+      dotColor: 'bg-amber-600',
       label: 'In Review',
       message: 'Your application is in our review queue. We review applications weekly and typically respond within 48 hours.',
     },
     reviewed: {
       color: 'text-blue-600',
       bg: 'bg-blue-50',
+      dotColor: 'bg-blue-600',
       label: 'Under Consideration',
       message: 'Your application has been reviewed and is being discussed by our membership committee. We\'ll be in touch soon.',
     },
     accepted: {
       color: 'text-green-600',
       bg: 'bg-green-50',
+      dotColor: 'bg-green-600',
       label: 'Accepted',
       message: 'Congratulations — you\'ve been accepted. Check your email for next steps and your invitation to our next event.',
     },
     declined: {
       color: 'text-muted',
       bg: 'bg-alt-bg',
+      dotColor: 'bg-muted',
       label: 'Not Selected',
       message: 'We weren\'t able to offer membership at this time. You\'re welcome to reapply after 6 months.',
     },
     interview: {
       color: 'text-purple-600',
       bg: 'bg-purple-50',
+      dotColor: 'bg-purple-600',
       label: 'Interview Scheduled',
       message: 'We\'d like to get to know you better. Check your email for interview details and scheduling.',
     },
@@ -178,8 +183,8 @@ import Footer from '../components/Footer.astro';
         if (labelEl) { labelEl.textContent = config.label; labelEl.className = `text-sm font-medium ${config.color}`; }
         if (messageEl) messageEl.textContent = config.message;
         if (queueEl && data.queueNumber) queueEl.textContent = `Queue position: #${data.queueNumber}`;
-        if (dotPing) dotPing.className = `absolute inline-flex h-full w-full animate-ping rounded-full opacity-75 ${config.color.replace('text-', 'bg-')}`;
-        if (dotSolid) dotSolid.className = `relative inline-flex h-2 w-2 rounded-full ${config.color.replace('text-', 'bg-')}`;
+        if (dotPing) dotPing.className = `absolute inline-flex h-full w-full animate-ping rounded-full opacity-75 ${config.dotColor}`;
+        if (dotSolid) dotSolid.className = `relative inline-flex h-2 w-2 rounded-full ${config.dotColor}`;
 
         resultEl?.classList.remove('hidden');
       }

@@ -422,6 +422,8 @@ import Layout from '../layouts/Layout.astro';
       if (value === 'A current member') {
         refField.classList.remove('hidden');
         continueBtn.classList.remove('hidden');
+        continueBtn.disabled = false;
+        continueBtn.classList.remove('opacity-40');
       } else {
         refField.classList.add('hidden');
         continueBtn.classList.add('hidden');
