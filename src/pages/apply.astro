@@ -53,12 +53,12 @@ import Layout from '../layouts/Layout.astro';
           <div class="space-y-5">
             <div>
               <label for="firstName" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-muted">First name</label>
-              <input type="text" id="firstName" name="firstName" required autocomplete="given-name"
+              <input type="text" id="firstName" name="firstName" required autocomplete="given-name" maxlength="100"
                 class="w-full border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30" />
             </div>
             <div>
               <label for="lastName" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-muted">Last name</label>
-              <input type="text" id="lastName" name="lastName" required autocomplete="family-name"
+              <input type="text" id="lastName" name="lastName" required autocomplete="family-name" maxlength="100"
                 class="w-full border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30" />
             </div>
           </div>
@@ -78,7 +78,7 @@ import Layout from '../layouts/Layout.astro';
           <div class="space-y-5">
             <div>
               <label for="email" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-muted">Email</label>
-              <input type="email" id="email" name="email" required autocomplete="email"
+              <input type="email" id="email" name="email" required autocomplete="email" maxlength="254"
                 class="w-full border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30" />
             </div>
             <div class="grid grid-cols-2 gap-5">
@@ -126,7 +126,7 @@ import Layout from '../layouts/Layout.astro';
           <p class="mb-8 font-light text-muted" style="line-height: 1.75;">
             Could be your job, your company, your craft, your obsession. We care less about titles and more about what drives you.
           </p>
-          <textarea id="whatYouDo" name="whatYouDo" rows="4" required
+          <textarea id="whatYouDo" name="whatYouDo" rows="4" required maxlength="2000"
             class="w-full resize-none border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30"></textarea>
           <button type="button" class="apply-next mt-10 rounded-full bg-charcoal px-10 py-4 text-sm font-medium text-cream opacity-40 transition-all duration-200" disabled>
             Continue
@@ -143,7 +143,7 @@ import Layout from '../layouts/Layout.astro';
           <p class="mb-8 font-light text-muted" style="line-height: 1.75;">
             Be specific. "Someone smart and attractive" doesn't help us help you. What qualities, values, or energy are you drawn to?
           </p>
-          <textarea id="whatYouLookFor" name="whatYouLookFor" rows="4" required
+          <textarea id="whatYouLookFor" name="whatYouLookFor" rows="4" required maxlength="2000"
             class="w-full resize-none border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30"></textarea>
           <button type="button" class="apply-next mt-10 rounded-full bg-charcoal px-10 py-4 text-sm font-medium text-cream opacity-40 transition-all duration-200" disabled>
             Continue
@@ -163,12 +163,12 @@ import Layout from '../layouts/Layout.astro';
           <div class="space-y-5">
             <div>
               <label for="instagram" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-muted">Instagram handle <span class="font-light normal-case tracking-normal text-muted/50">(optional)</span></label>
-              <input type="text" id="instagram" name="instagram" placeholder="@username"
+              <input type="text" id="instagram" name="instagram" placeholder="@username" maxlength="100"
                 class="w-full border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30" />
             </div>
             <div>
               <label for="linkedin" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-muted">LinkedIn URL <span class="font-light normal-case tracking-normal text-muted/50">(optional)</span></label>
-              <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/..."
+              <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/..." maxlength="500"
                 class="w-full border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30" />
             </div>
           </div>
@@ -195,7 +195,7 @@ import Layout from '../layouts/Layout.astro';
           </div>
           <div id="referred-by-field" class="mt-5 hidden">
             <label for="referredBy" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-muted">Who referred you?</label>
-            <input type="text" id="referredBy" name="referredBy"
+            <input type="text" id="referredBy" name="referredBy" maxlength="200"
               class="w-full border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30" />
           </div>
           <button type="button" id="referral-continue" class="apply-next mt-8 hidden rounded-full bg-charcoal px-10 py-4 text-sm font-medium text-cream transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg" disabled>
@@ -269,7 +269,7 @@ import Layout from '../layouts/Layout.astro';
 
 <script>
   import { db } from '../lib/firebase';
-  import { collection, addDoc, doc, getDoc, runTransaction, serverTimestamp } from 'firebase/firestore';
+  import { doc, setDoc, getDoc, runTransaction, serverTimestamp } from 'firebase/firestore';
 
   const TOTAL_STEPS = 8;
   let currentStep = 0;
@@ -444,6 +444,15 @@ import Layout from '../layouts/Layout.astro';
     if (autoSubmitTimeout) clearTimeout(autoSubmitTimeout);
     collectStepData(currentStep);
 
+    const emailKey = (formData.email || '').toLowerCase().trim();
+    if (!emailKey) {
+      isSubmitting = false;
+      errorDiv.textContent = 'Please provide a valid email address.';
+      errorDiv.classList.remove('hidden');
+      setTimeout(() => errorDiv.classList.add('hidden'), 4000);
+      return;
+    }
+
     try {
       // Increment counter and get queue number
       let queueNumber = 0;
@@ -461,18 +470,21 @@ import Layout from '../layouts/Layout.astro';
         queueNumber = Math.floor(Math.random() * 100) + 813;
       }
 
-      await addDoc(collection(db, 'applications'), {
-        firstName: formData.firstName || '',
-        lastName: formData.lastName || '',
-        email: (formData.email || '').toLowerCase(),
+      // Use email as doc ID so Firestore rules can allow get-only reads
+      // (blocks collection-wide queries that would expose all applicant data).
+      const appRef = doc(db, 'applications', emailKey);
+      await setDoc(appRef, {
+        firstName: (formData.firstName || '').slice(0, 100),
+        lastName: (formData.lastName || '').slice(0, 100),
+        email: emailKey,
         age: formData.age || '',
         gender: formData.gender || '',
-        whatYouDo: formData.whatYouDo || '',
-        whatYouLookFor: formData.whatYouLookFor || '',
-        instagram: formData.instagram || null,
-        linkedin: formData.linkedin || null,
+        whatYouDo: (formData.whatYouDo || '').slice(0, 2000),
+        whatYouLookFor: (formData.whatYouLookFor || '').slice(0, 2000),
+        instagram: (formData.instagram || '').slice(0, 100) || null,
+        linkedin: (formData.linkedin || '').slice(0, 500) || null,
         referralSource: formData.referralSource || '',
-        referredBy: formData.referredBy || null,
+        referredBy: (formData.referredBy || '').slice(0, 200) || null,
         createdAt: serverTimestamp(),
         status: 'pending',
         queueNumber: queueNumber,

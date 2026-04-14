@@ -53,12 +53,12 @@ import Layout from '../layouts/Layout.astro';
           <div class="space-y-5">
             <div>
               <label for="nomName" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-muted">Your name</label>
-              <input type="text" id="nomName" name="nominatorName" required autocomplete="name"
+              <input type="text" id="nomName" name="nominatorName" required autocomplete="name" maxlength="200"
                 class="w-full border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30" />
             </div>
             <div>
               <label for="nomEmail" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-muted">Your email</label>
-              <input type="email" id="nomEmail" name="nominatorEmail" required autocomplete="email"
+              <input type="email" id="nomEmail" name="nominatorEmail" required autocomplete="email" maxlength="254"
                 class="w-full border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30" />
             </div>
           </div>
@@ -78,12 +78,12 @@ import Layout from '../layouts/Layout.astro';
           <div class="space-y-5">
             <div>
               <label for="friendName" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-muted">Their name</label>
-              <input type="text" id="friendName" name="friendName" required
+              <input type="text" id="friendName" name="friendName" required maxlength="200"
                 class="w-full border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30" />
             </div>
             <div>
               <label for="friendContact" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-muted">Their email or Instagram</label>
-              <input type="text" id="friendContact" name="friendContact" required placeholder="email@example.com or @instagram"
+              <input type="text" id="friendContact" name="friendContact" required placeholder="email@example.com or @instagram" maxlength="254"
                 class="w-full border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30" />
             </div>
           </div>
@@ -100,7 +100,7 @@ import Layout from '../layouts/Layout.astro';
           <h2 class="mb-8 font-serif font-normal leading-tight" style="font-size: clamp(1.8rem, 3.5vw, 2.6rem); letter-spacing: -0.02em;">
             What makes them a great fit?
           </h2>
-          <textarea id="whyGreatFit" name="whyGreatFit" rows="4" required
+          <textarea id="whyGreatFit" name="whyGreatFit" rows="4" required maxlength="2000"
             class="w-full resize-none border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30"></textarea>
           <button type="button" class="nom-next nom-submit mt-10 rounded-full bg-charcoal px-10 py-4 text-sm font-medium text-cream opacity-40 transition-all duration-200" disabled>
             Submit Nomination
@@ -317,11 +317,11 @@ import Layout from '../layouts/Layout.astro';
 
     try {
       await addDoc(collection(db, 'nominations'), {
-        nominatorName: formData.nominatorName || '',
-        nominatorEmail: formData.nominatorEmail || '',
-        friendName: formData.friendName || '',
-        friendContact: formData.friendContact || '',
-        whyGreatFit: formData.whyGreatFit || '',
+        nominatorName: (formData.nominatorName || '').slice(0, 200),
+        nominatorEmail: (formData.nominatorEmail || '').slice(0, 254),
+        friendName: (formData.friendName || '').slice(0, 200),
+        friendContact: (formData.friendContact || '').slice(0, 254),
+        whyGreatFit: (formData.whyGreatFit || '').slice(0, 2000),
         createdAt: serverTimestamp(),
         status: 'pending',
       });
