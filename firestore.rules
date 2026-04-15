@@ -2,28 +2,75 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Applications: allow anyone to create, allow reads for status checking
-    match /applications/{document=**} {
-      allow create: if true;
-      allow read: if true;
-      allow update, delete: if false;
+    // Applications: use email as doc ID for secure single-doc lookups.
+    // Only get (single-doc read) is allowed — list/query is denied to prevent
+    // enumeration of all applicant PII.
+    match /applications/{emailId} {
+      allow get: if true;
+      allow list: if false;
+      allow create: if request.resource.data.email is string
+                    && request.resource.data.email.size() > 0
+                    && request.resource.data.email.size() <= 254
+                    && request.resource.data.email == emailId
+                    && request.resource.data.firstName is string
+                    && request.resource.data.firstName.size() <= 100
+                    && request.resource.data.lastName is string
+                    && request.resource.data.lastName.size() <= 100
+                    && request.resource.data.whatYouDo is string
+                    && request.resource.data.whatYouDo.size() <= 2000
+                    && request.resource.data.whatYouLookFor is string
+                    && request.resource.data.whatYouLookFor.size() <= 2000
+                    && request.resource.data.status == 'pending';
+      allow update: if resource.data.status == 'pending'
+                    && request.resource.data.email == resource.data.email
+                    && request.resource.data.email == emailId
+                    && request.resource.data.firstName is string
+                    && request.resource.data.firstName.size() <= 100
+                    && request.resource.data.lastName is string
+                    && request.resource.data.lastName.size() <= 100
+                    && request.resource.data.whatYouDo is string
+                    && request.resource.data.whatYouDo.size() <= 2000
+                    && request.resource.data.whatYouLookFor is string
+                    && request.resource.data.whatYouLookFor.size() <= 2000
+                    && request.resource.data.status == 'pending';
+      allow delete: if false;
     }
 
-    // Nominations: allow anyone to create, only admins can read/update/delete
+    // Nominations: write-only with field validation. No reads from client.
     match /nominations/{document=**} {
-      allow create: if true;
+      allow create: if request.resource.data.nominatorName is string
+                    && request.resource.data.nominatorName.size() > 0
+                    && request.resource.data.nominatorName.size() <= 200
+                    && request.resource.data.nominatorEmail is string
+                    && request.resource.data.nominatorEmail.size() > 0
+                    && request.resource.data.nominatorEmail.size() <= 254
+                    && request.resource.data.friendName is string
+                    && request.resource.data.friendName.size() > 0
+                    && request.resource.data.friendName.size() <= 200
+                    && request.resource.data.friendContact is string
+                    && request.resource.data.friendContact.size() <= 254
+                    && request.resource.data.whyGreatFit is string
+                    && request.resource.data.whyGreatFit.size() <= 2000;
       allow read, update, delete: if false;
     }
 
-    // Counters: allow anyone to read, allow writes (for atomic increments)
-    match /counters/{document=**} {
+    // Counters: anyone can read; only the applications counter can be
+    // incremented by exactly 1 (prevents arbitrary manipulation).
+    match /counters/{counter} {
       allow read: if true;
-      allow write: if true;
+      allow update: if counter == 'applications'
+                    && request.resource.data.count is int
+                    && request.resource.data.count == resource.data.count + 1;
+      allow create, delete: if false;
     }
 
-    // Newsletter subscribers: use email as doc ID, write-only (no read needed)
-    match /newsletter_subscribers/{document=**} {
-      allow create, update: if true;
+    // Newsletter subscribers: email is the doc ID. Validated writes only.
+    match /newsletter_subscribers/{emailId} {
+      allow create, update: if request.resource.data.email is string
+                            && request.resource.data.email == emailId
+                            && request.resource.data.email.size() > 0
+                            && request.resource.data.email.size() <= 254
+                            && request.resource.data.status is string;
       allow read, delete: if false;
     }
 
