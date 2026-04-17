@@ -223,13 +223,14 @@ import Footer from '../components/Footer.astro';
       bar.className = 'rounded-xl border border-divider bg-white/60 px-5 py-4';
       bar.innerHTML = `
         <div class="flex items-center justify-between mb-2">
-          <span class="text-sm font-medium text-charcoal">${name}</span>
+          <span class="text-sm font-medium text-charcoal"></span>
           <span class="text-xs font-light text-muted">${count} vote${count !== 1 ? 's' : ''} · ${pct}%</span>
         </div>
         <div class="h-2 w-full rounded-full bg-divider overflow-hidden">
           <div class="h-full rounded-full bg-gold transition-all duration-700 ease-out" style="width: ${barWidth}%"></div>
         </div>
       `;
+      bar.querySelector('.text-charcoal')!.textContent = name;
       resultsContainer.appendChild(bar);
     });
 
