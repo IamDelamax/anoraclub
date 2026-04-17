@@ -1,0 +1,239 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Vote on Our New Name — Anora Club"
+  description="Help us choose the perfect name for our private social club. Vote now and see live results."
+  canonicalPath="/vote"
+>
+  <Nav />
+
+  <section class="min-h-screen bg-warm-white px-6 pt-32 pb-20">
+    <div class="mx-auto max-w-[640px]">
+      <!-- Header -->
+      <p class="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-gold">
+        Help Us Decide
+      </p>
+      <h1 class="font-serif font-normal leading-[1.1]" style="font-size: clamp(2.2rem, 5vw, 3.5rem); letter-spacing: -0.03em;">
+        What should we <span class="italic text-gold">be called?</span>
+      </h1>
+      <p class="mt-4 max-w-lg text-base font-light leading-relaxed text-muted" style="line-height: 1.75;">
+        We're evolving — and the name should reflect who we are. Vote for your favorite, or suggest something new. Results shown after you vote.
+      </p>
+
+      <!-- Voting Form -->
+      <div id="vote-form" class="mt-12">
+        <!-- Name Options -->
+        <div class="space-y-3" id="options-list">
+          <label class="vote-option group flex cursor-pointer items-center gap-4 rounded-xl border border-divider bg-white/60 px-5 py-4 transition-all hover:border-gold/40 hover:bg-white">
+            <input type="radio" name="clubName" value="Power Couple Club" class="h-4 w-4 accent-gold" />
+            <div>
+              <span class="text-base font-medium text-charcoal">Power Couple Club</span>
+              <p class="mt-0.5 text-xs font-light text-muted">Bold. Direct. Says exactly what it is.</p>
+            </div>
+          </label>
+
+          <label class="vote-option group flex cursor-pointer items-center gap-4 rounded-xl border border-divider bg-white/60 px-5 py-4 transition-all hover:border-gold/40 hover:bg-white">
+            <input type="radio" name="clubName" value="Kindred Club" class="h-4 w-4 accent-gold" />
+            <div>
+              <span class="text-base font-medium text-charcoal">Kindred Club</span>
+              <p class="mt-0.5 text-xs font-light text-muted">Finding your people. Warm, inviting, timeless.</p>
+            </div>
+          </label>
+
+          <label class="vote-option group flex cursor-pointer items-center gap-4 rounded-xl border border-divider bg-white/60 px-5 py-4 transition-all hover:border-gold/40 hover:bg-white">
+            <input type="radio" name="clubName" value="Élan Club" class="h-4 w-4 accent-gold" />
+            <div>
+              <span class="text-base font-medium text-charcoal">Élan Club</span>
+              <p class="mt-0.5 text-xs font-light text-muted">French for passion and style. Sophisticated, memorable.</p>
+            </div>
+          </label>
+
+          <label class="vote-option group flex cursor-pointer items-center gap-4 rounded-xl border border-divider bg-white/60 px-5 py-4 transition-all hover:border-gold/40 hover:bg-white">
+            <input type="radio" name="clubName" value="Nexus Club" class="h-4 w-4 accent-gold" />
+            <div>
+              <span class="text-base font-medium text-charcoal">Nexus Club</span>
+              <p class="mt-0.5 text-xs font-light text-muted">The point of connection. Modern, clean, powerful.</p>
+            </div>
+          </label>
+
+          <label class="vote-option group flex cursor-pointer items-center gap-4 rounded-xl border border-divider bg-white/60 px-5 py-4 transition-all hover:border-gold/40 hover:bg-white">
+            <input type="radio" name="clubName" value="The Commons" class="h-4 w-4 accent-gold" />
+            <div>
+              <span class="text-base font-medium text-charcoal">The Commons</span>
+              <p class="mt-0.5 text-xs font-light text-muted">A shared space for remarkable people. Understated elegance.</p>
+            </div>
+          </label>
+
+          <!-- Custom option -->
+          <label class="vote-option group flex cursor-pointer items-center gap-4 rounded-xl border border-divider bg-white/60 px-5 py-4 transition-all hover:border-gold/40 hover:bg-white">
+            <input type="radio" name="clubName" value="__custom__" id="custom-radio" class="h-4 w-4 accent-gold" />
+            <div class="flex-1">
+              <span class="text-base font-medium text-charcoal">Suggest your own</span>
+              <input
+                type="text"
+                id="custom-name"
+                placeholder="Your idea..."
+                class="mt-2 hidden w-full border-b border-divider bg-transparent py-2 text-sm text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/40"
+              />
+            </div>
+          </label>
+        </div>
+
+        <!-- Voter Info -->
+        <div class="mt-10 space-y-4">
+          <div>
+            <label for="voter-name" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-muted">Your name</label>
+            <input type="text" id="voter-name" required
+              class="w-full border-b-2 border-divider bg-transparent py-3 text-base text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30"
+              placeholder="First name" />
+          </div>
+          <div>
+            <label for="voter-email" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-muted">Email <span class="font-normal normal-case text-muted/50">(optional)</span></label>
+            <input type="email" id="voter-email"
+              class="w-full border-b-2 border-divider bg-transparent py-3 text-base text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30"
+              placeholder="you@example.com" />
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <button id="submit-vote" type="button" disabled
+          class="mt-10 w-full rounded-full bg-charcoal px-10 py-4 text-sm font-medium text-cream opacity-40 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg disabled:pointer-events-none disabled:opacity-40">
+          Cast Your Vote
+        </button>
+        <p id="vote-error" class="mt-3 hidden text-center text-xs text-red-500"></p>
+      </div>
+
+      <!-- Results (hidden until voted) -->
+      <div id="vote-results" class="mt-12 hidden">
+        <p class="mb-6 text-xs font-semibold uppercase tracking-[0.18em] text-gold">
+          Live Results
+        </p>
+        <h2 class="mb-8 font-serif text-2xl font-normal" style="letter-spacing: -0.02em;">
+          Here's what everyone thinks.
+        </h2>
+        <div id="results-bars" class="space-y-4"></div>
+        <p id="total-votes" class="mt-8 text-center text-xs font-light text-muted"></p>
+
+        <div class="mt-10 text-center">
+          <a href="/" class="text-sm font-light text-gold transition-colors hover:text-charcoal">
+            &larr; Back to homepage
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<script>
+  import { db } from '../lib/firebase';
+  import { collection, addDoc, getDocs, serverTimestamp } from 'firebase/firestore';
+
+  const form = document.getElementById('vote-form') as HTMLElement;
+  const results = document.getElementById('vote-results') as HTMLElement;
+  const submitBtn = document.getElementById('submit-vote') as HTMLButtonElement;
+  const voterName = document.getElementById('voter-name') as HTMLInputElement;
+  const voterEmail = document.getElementById('voter-email') as HTMLInputElement;
+  const customRadio = document.getElementById('custom-radio') as HTMLInputElement;
+  const customName = document.getElementById('custom-name') as HTMLInputElement;
+  const errorEl = document.getElementById('vote-error') as HTMLElement;
+
+  // Show custom input when "Suggest your own" is selected
+  document.querySelectorAll('input[name="clubName"]').forEach((radio) => {
+    radio.addEventListener('change', () => {
+      const isCustom = (radio as HTMLInputElement).value === '__custom__';
+      customName.classList.toggle('hidden', !isCustom);
+      if (isCustom) {
+        customName.focus();
+      }
+      validateForm();
+    });
+  });
+
+  customName.addEventListener('input', validateForm);
+  voterName.addEventListener('input', validateForm);
+
+  function validateForm() {
+    const selected = (document.querySelector('input[name="clubName"]:checked') as HTMLInputElement)?.value;
+    const hasName = voterName.value.trim().length > 0;
+    const hasSelection = selected && (selected !== '__custom__' || customName.value.trim().length > 0);
+
+    submitBtn.disabled = !(hasName && hasSelection);
+    submitBtn.classList.toggle('opacity-40', !(hasName && hasSelection));
+  }
+
+  submitBtn.addEventListener('click', async () => {
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+    errorEl.classList.add('hidden');
+
+    try {
+      let selectedName = (document.querySelector('input[name="clubName"]:checked') as HTMLInputElement)?.value;
+      if (selectedName === '__custom__') {
+        selectedName = customName.value.trim();
+      }
+
+      await addDoc(collection(db, 'votes'), {
+        clubName: selectedName,
+        voterName: voterName.value.trim(),
+        voterEmail: voterEmail.value.trim() || null,
+        createdAt: serverTimestamp(),
+      });
+
+      // Show results
+      await loadResults();
+      form.classList.add('hidden');
+      results.classList.remove('hidden');
+    } catch (err) {
+      errorEl.textContent = 'Something went wrong. Please try again.';
+      errorEl.classList.remove('hidden');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Cast Your Vote';
+    }
+  });
+
+  async function loadResults() {
+    const snapshot = await getDocs(collection(db, 'votes'));
+    const counts: Record<string, number> = {};
+    let total = 0;
+
+    snapshot.forEach((doc) => {
+      const name = doc.data().clubName;
+      counts[name] = (counts[name] || 0) + 1;
+      total++;
+    });
+
+    // Sort by count descending
+    const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+    const maxCount = sorted.length > 0 ? sorted[0][1] : 1;
+
+    const resultsContainer = document.getElementById('results-bars') as HTMLElement;
+    resultsContainer.innerHTML = '';
+
+    sorted.forEach(([name, count]) => {
+      const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+      const barWidth = Math.max((count / maxCount) * 100, 8);
+
+      const bar = document.createElement('div');
+      bar.className = 'rounded-xl border border-divider bg-white/60 px-5 py-4';
+      bar.innerHTML = `
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-sm font-medium text-charcoal">${name}</span>
+          <span class="text-xs font-light text-muted">${count} vote${count !== 1 ? 's' : ''} · ${pct}%</span>
+        </div>
+        <div class="h-2 w-full rounded-full bg-divider overflow-hidden">
+          <div class="h-full rounded-full bg-gold transition-all duration-700 ease-out" style="width: ${barWidth}%"></div>
+        </div>
+      `;
+      resultsContainer.appendChild(bar);
+    });
+
+    const totalEl = document.getElementById('total-votes') as HTMLElement;
+    totalEl.textContent = `${total} total vote${total !== 1 ? 's' : ''} cast`;
+  }
+</script>

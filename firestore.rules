@@ -27,6 +27,12 @@ service cloud.firestore {
       allow read, delete: if false;
     }
 
+    // Votes: allow anyone to create and read (for showing results)
+    match /votes/{document=**} {
+      allow create, read: if true;
+      allow update, delete: if false;
+    }
+
     // Deny everything else
     match /{document=**} {
       allow read, write: if false;
