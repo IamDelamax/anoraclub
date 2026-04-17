@@ -1,113 +1,74 @@
 ---
 ---
-<section id="hero" class="relative flex min-h-screen items-center justify-center overflow-hidden bg-warm-white px-6 pt-20">
-  <div class="relative z-20 mx-auto max-w-[960px] text-center">
-    <!-- Eyebrow -->
-    <p class="mb-6 text-xs font-semibold uppercase tracking-[0.18em] text-gold">
-      San Francisco
-    </p>
-
-    <!-- Headline -->
-    <h1
-      class="mx-auto max-w-4xl font-serif font-normal leading-[1.1]"
-      style="font-size: clamp(3rem, 6vw, 5.5rem); letter-spacing: -0.03em;"
-    >
-      Meet people <span class="italic text-gold">worth meeting.</span>
-    </h1>
-
-    <!-- Subhead -->
-    <p class="mx-auto mt-6 max-w-2xl text-lg font-light leading-relaxed text-soft-black md:text-xl" style="line-height: 1.75;">
-      A private social club for ambitious singles in San Francisco — with curated events, thoughtful introductions, and a better way to date.
-    </p>
-
-    <!-- Tagline -->
-    <p class="mt-5 font-serif text-lg italic text-muted md:text-xl">
-      Stop swiping. Start showing up in the right rooms.
-    </p>
-
-    <!-- Buttons -->
-    <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-      <a
-        href="/apply"
-        class="hero-cta rounded-full bg-charcoal px-8 py-3.5 text-sm font-medium text-cream transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
-        data-cta="hero-apply"
-      >
-        Apply for Membership
-      </a>
-      <a
-        href="/nominate"
-        class="hero-cta rounded-full border border-charcoal px-8 py-3.5 text-sm font-medium text-charcoal transition-all duration-200 hover:-translate-y-0.5 hover:bg-charcoal hover:text-cream"
-        data-cta="hero-nominate"
-      >
-        Nominate a Friend
-      </a>
-    </div>
-
-    <!-- Fine print -->
-    <p class="mt-6 text-xs font-light tracking-wide text-muted">
-      Interview-based membership. Limited founding spots.
-    </p>
-
-    <!-- Live counter -->
-    <div class="mt-4 flex flex-col items-center gap-1.5">
-      <p class="flex items-center gap-2 text-xs font-light text-muted">
-        <span class="live-dot relative flex h-2 w-2">
-          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
-          <span class="relative inline-flex h-2 w-2 rounded-full bg-green-500"></span>
-        </span>
-        <span id="waitlist-count">847</span> people on the waitlist &middot; <span id="spots-remaining">28</span> spots remaining in the founding class
+<section id="hero" class="relative overflow-hidden bg-warm-white px-6 pt-28 pb-24 md:pt-36 md:pb-28">
+  <div class="mx-auto max-w-[1040px]">
+    <div class="fade-in-up text-center">
+      <p class="mb-6 text-xs font-semibold uppercase tracking-[0.18em] text-gold">
+        San Francisco &amp; Los Angeles
       </p>
-      <p class="text-[11px] font-light text-muted/60">
-        Applications reviewed weekly. Average response time: 48 hours.
+      <h1
+        class="mx-auto max-w-4xl font-serif font-normal leading-[1.04] text-charcoal"
+        style="font-size: clamp(3.2rem, 7vw, 6rem); letter-spacing: -0.04em;"
+      >
+        Find your person.
+        <span class="italic text-gold">Build together.</span>
+      </h1>
+      <p class="mx-auto mt-7 max-w-2xl text-lg font-light leading-relaxed text-soft-black md:text-xl" style="line-height: 1.8;">
+        A private social club for ambitious people who want better rooms, stronger chemistry, and a more intentional path to relationships and community.
+      </p>
+      <p class="mt-5 font-serif text-lg italic text-muted md:text-xl">
+        Singles start here. Couples grow here.
+      </p>
+
+      <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <a
+          href="/#vote"
+          class="hero-cta rounded-full bg-charcoal px-8 py-3.5 text-sm font-medium text-cream transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+          data-cta="hero-vote"
+        >
+          Vote On The Name
+        </a>
+        <a
+          href="/apply"
+          class="hero-cta rounded-full border border-charcoal px-8 py-3.5 text-sm font-medium text-charcoal transition-all duration-200 hover:-translate-y-0.5 hover:bg-charcoal hover:text-cream"
+          data-cta="hero-apply"
+        >
+          Apply For Membership
+        </a>
+      </div>
+
+      <p class="mt-6 text-xs font-light tracking-wide text-muted">
+        Interview-based membership. Limited founding access.
       </p>
     </div>
-  </div>
 
-  <!-- Hero lifestyle image strip -->
-  <div class="absolute bottom-0 left-0 right-0 h-[280px] overflow-hidden md:h-[340px]">
-    <div class="absolute inset-0 z-10 bg-gradient-to-b from-warm-white via-warm-white/80 to-transparent"></div>
-    <img
-      src="/images/hero-social.jpg?v=4"
-      alt="People socializing at an Anora Club gathering"
-      class="h-full w-full object-cover object-center opacity-40"
-      loading="lazy"
-    />
+    <div class="fade-in-up mt-16 grid gap-4 md:grid-cols-3">
+      <div class="rounded-2xl border border-divider bg-white/65 px-6 py-5 text-left">
+        <p class="text-xs font-semibold uppercase tracking-[0.15em] text-gold">Level 1</p>
+        <p class="mt-3 font-serif text-2xl text-charcoal">Singles</p>
+        <p class="mt-3 text-sm font-light leading-relaxed text-muted" style="line-height: 1.75;">
+          Curated social rooms and thoughtful introductions for people looking for a real partnership.
+        </p>
+      </div>
+      <div class="rounded-2xl border border-divider bg-white/65 px-6 py-5 text-left">
+        <p class="text-xs font-semibold uppercase tracking-[0.15em] text-gold">Level 2</p>
+        <p class="mt-3 font-serif text-2xl text-charcoal">Couples</p>
+        <p class="mt-3 text-sm font-light leading-relaxed text-muted" style="line-height: 1.75;">
+          Shared experiences, introductions to other couples, and a social life that supports what you’re building.
+        </p>
+      </div>
+      <div class="rounded-2xl border border-divider bg-alt-bg px-6 py-5 text-left">
+        <p class="text-xs font-semibold uppercase tracking-[0.15em] text-gold">Designed for</p>
+        <p class="mt-3 font-serif text-2xl text-charcoal">High-agency people</p>
+        <p class="mt-3 text-sm font-light leading-relaxed text-muted" style="line-height: 1.75;">
+          Less noise, more context, and gatherings that feel like a social life instead of a funnel.
+        </p>
+      </div>
+    </div>
   </div>
 </section>
 
 <script>
-  import { db } from '../lib/firebase';
-  import { doc, getDoc } from 'firebase/firestore';
-
-  async function loadCounter() {
-    try {
-      const counterRef = doc(db, 'counters', 'applications');
-      const counterDoc = await getDoc(counterRef);
-      if (counterDoc.exists()) {
-        const count = counterDoc.data().count ?? 847;
-        const waitlistEl = document.getElementById('waitlist-count');
-        if (waitlistEl) waitlistEl.textContent = String(count);
-      }
-
-      const spotsRef = doc(db, 'counters', 'spots');
-      const spotsDoc = await getDoc(spotsRef);
-      if (spotsDoc.exists()) {
-        const spots = spotsDoc.data().remaining ?? 28;
-        const spotsEl = document.getElementById('spots-remaining');
-        if (spotsEl) spotsEl.textContent = String(spots);
-        const ctaSpotsEl = document.getElementById('cta-spots-remaining');
-        if (ctaSpotsEl) ctaSpotsEl.textContent = String(spots);
-        const mobileSpotsEl = document.getElementById('mobile-spots');
-        if (mobileSpotsEl) mobileSpotsEl.textContent = String(spots);
-      }
-    } catch (err) {
-      // Silently fail — keep hardcoded defaults
-    }
-  }
-
-  loadCounter();
-
-  // Track CTA clicks
   document.querySelectorAll('.hero-cta').forEach((el) => {
     el.addEventListener('click', () => {
       const ctaName = (el as HTMLElement).dataset.cta;

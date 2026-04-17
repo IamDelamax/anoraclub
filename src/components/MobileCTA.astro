@@ -7,15 +7,14 @@
     class="mobile-cta-link flex items-center justify-center gap-2 bg-charcoal px-6 py-4 text-center text-sm font-medium text-cream shadow-[0_-4px_20px_rgba(0,0,0,0.1)]"
     data-cta="mobile-sticky"
   >
-    Apply Now — <span id="mobile-spots">28</span> spots left
+    Apply
   </a>
 </div>
 
 <script>
   const mobileCTA = document.getElementById('mobile-cta');
   const heroSection = document.getElementById('hero');
-  const ctaSection = document.querySelector('section:has(#cta-spots-remaining)')
-    || document.querySelector('.bg-charcoal:last-of-type');
+  const ctaSection = document.querySelector('[data-final-cta]');
 
   if (mobileCTA && heroSection) {
     // Shared state to avoid observer conflicts on initial load

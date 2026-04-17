@@ -1,28 +1,24 @@
 ---
 const events = [
   {
-    title: 'Curated dinner salons',
-    description: 'Small tables, good questions, no wallflowers. Designed so you leave knowing someone better than when you arrived.',
-    image: '/images/event-dinner.jpg?v=4',
-    imageAlt: 'People enjoying an intimate dinner gathering',
+    title: 'Dinner salons',
+    description: 'Small tables, good questions, and a pace that makes conversation feel easy instead of performative.',
+    marker: '01',
   },
   {
     title: 'Hosted cocktail evenings',
-    description: 'The energy of a great house party with the intention of a private club. Warm rooms, interesting people, easy introductions.',
-    image: '/images/event-cocktail.jpg?v=4',
-    imageAlt: 'People socializing at a cocktail evening',
+    description: 'The energy of a strong house party with better composition, better introductions, and less noise.',
+    marker: '02',
   },
   {
-    title: 'Small cultural gatherings',
-    description: 'Gallery visits, fireside talks, and outings that give people something to connect over beyond the usual small talk.',
-    image: '/images/event-cultural.jpg?v=4',
-    imageAlt: 'Members at a cultural gathering with live music',
+    title: 'Smaller cultural formats',
+    description: 'Gallery visits, talks, and outings that give people something real to connect around.',
+    marker: '03',
   },
 ];
 ---
 <section id="events" class="bg-cream px-6 py-28 md:py-32">
   <div class="mx-auto max-w-[1100px]">
-    <!-- Label -->
     <div class="fade-in-up text-center">
       <p class="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-gold">
         Experiences
@@ -31,38 +27,27 @@ const events = [
         class="font-serif font-normal leading-tight"
         style="font-size: clamp(2.2rem, 4vw, 3.2rem); letter-spacing: -0.02em;"
       >
-        Events designed for chemistry, not just attendance.
+        Three event types. One reason to go.
       </h2>
       <p class="mx-auto mt-4 max-w-2xl text-base font-light text-muted" style="line-height: 1.75;">
-        We host experiences that make it easier to actually talk, observe, and connect.
+        Each format is built to make conversation, chemistry, and follow-through easier.
       </p>
     </div>
 
-    <!-- Event cards with images -->
-    <div class="fade-in-up mx-auto mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="fade-in-up mx-auto mt-14 grid gap-6 lg:grid-cols-3">
       {events.map((event) => (
-        <div class="group overflow-hidden rounded-2xl border border-divider bg-warm-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-          <div class="h-48 overflow-hidden">
-            <img
-              src={event.image}
-              alt={event.imageAlt}
-              class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-              loading="lazy"
-            />
-          </div>
-          <div class="p-8">
-            <h3 class="mb-3 font-serif text-xl text-charcoal">{event.title}</h3>
-            <p class="text-sm font-light leading-relaxed text-muted" style="line-height: 1.75;">
-              {event.description}
-            </p>
-          </div>
+        <div class="rounded-2xl border border-divider bg-warm-white p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+          <p class="text-xs font-semibold uppercase tracking-[0.15em] text-gold">{event.marker}</p>
+          <h3 class="mt-4 font-serif text-2xl text-charcoal">{event.title}</h3>
+          <p class="mt-4 text-sm font-light leading-relaxed text-muted" style="line-height: 1.8;">
+            {event.description}
+          </p>
         </div>
       ))}
     </div>
 
-    <!-- Frequency line -->
     <p class="fade-in-up mx-auto mt-14 max-w-2xl text-center font-serif text-lg italic text-muted" style="line-height: 1.75;">
-      Two events monthly. One intimate gathering for twelve. One social evening for the full community. One is required. Both are worth showing up for.
+      The goal is not more attendance. It’s better rooms, better context, and better odds of something real beginning there.
     </p>
   </div>
 </section>

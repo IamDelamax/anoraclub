@@ -1,0 +1,254 @@
+---
+interface Props {
+  standalone?: boolean;
+}
+
+const { standalone = false } = Astro.props;
+
+const options = [
+  'Power Couple Club',
+  'Kindred Club',
+  'The Duet Club',
+  'Spark & Bond',
+  'The Pair Collective',
+];
+---
+
+<section
+  id="vote"
+  class:list={[
+    'bg-charcoal px-6 text-cream',
+    standalone ? 'min-h-screen pt-32 pb-20' : 'py-24 md:py-28',
+  ]}
+>
+  <div class="mx-auto max-w-[1100px]">
+    <div class="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+      <div class="fade-in-up max-w-[560px]">
+        <p class="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-gold-light">
+          Vote On The Name
+        </p>
+        <h2
+          class="font-serif font-normal leading-tight"
+          style="font-size: clamp(2.3rem, 4vw, 3.4rem); letter-spacing: -0.03em;"
+        >
+          Help shape what this becomes.
+        </h2>
+        <p class="mt-5 text-base font-light leading-relaxed text-cream/70" style="line-height: 1.8;">
+          We’re choosing the public name now. Cast one vote from this browser and we’ll keep your ballot private.
+        </p>
+        <div class="mt-8 grid gap-3 text-sm text-cream/70 sm:grid-cols-2">
+          <div class="rounded-2xl border border-white/10 bg-white/5 px-5 py-4">
+            Five starting directions, plus your own suggestion.
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-white/5 px-5 py-4">
+            Name is required. Email is optional and never shown publicly.
+          </div>
+        </div>
+      </div>
+
+      <div class="fade-in-up rounded-[28px] border border-white/10 bg-white/6 p-6 shadow-[0_30px_80px_rgba(0,0,0,0.28)] md:p-8">
+        <div id="vote-form-shell">
+          <div class="space-y-3" id="name-options">
+            {options.map((option) => (
+              <label class="group flex cursor-pointer items-start gap-4 rounded-2xl border border-white/10 bg-charcoal/70 px-5 py-4 transition-all hover:border-gold/50 hover:bg-white/8">
+                <input type="radio" name="clubName" value={option} class="mt-1 h-4 w-4 accent-gold" />
+                <span class="text-sm font-medium text-cream">{option}</span>
+              </label>
+            ))}
+
+            <label class="group flex cursor-pointer items-start gap-4 rounded-2xl border border-white/10 bg-charcoal/70 px-5 py-4 transition-all hover:border-gold/50 hover:bg-white/8">
+              <input type="radio" name="clubName" value="__custom__" id="custom-radio" class="mt-1 h-4 w-4 accent-gold" />
+              <div class="flex-1">
+                <span class="text-sm font-medium text-cream">Suggest your own</span>
+                <input
+                  type="text"
+                  id="custom-name"
+                  placeholder="Your idea..."
+                  class="mt-3 hidden w-full rounded-xl border border-white/10 bg-black/15 px-4 py-3 text-sm text-cream outline-none transition-colors focus:border-gold/60 placeholder:text-cream/35"
+                />
+              </div>
+            </label>
+          </div>
+
+          <div class="mt-8 grid gap-4">
+            <div>
+              <label for="voter-name" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-cream/55">Your name</label>
+              <input
+                type="text"
+                id="voter-name"
+                class="w-full rounded-xl border border-white/10 bg-black/15 px-4 py-3 text-sm text-cream outline-none transition-colors focus:border-gold/60 placeholder:text-cream/35"
+                placeholder="First name"
+              />
+            </div>
+            <div>
+              <label for="voter-email" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-cream/55">Email <span class="font-normal normal-case tracking-normal text-cream/35">(optional)</span></label>
+              <input
+                type="email"
+                id="voter-email"
+                class="w-full rounded-xl border border-white/10 bg-black/15 px-4 py-3 text-sm text-cream outline-none transition-colors focus:border-gold/60 placeholder:text-cream/35"
+                placeholder="you@example.com"
+              />
+            </div>
+          </div>
+
+          <button
+            id="submit-vote"
+            type="button"
+            disabled
+            class="mt-8 w-full rounded-full bg-gold px-8 py-4 text-sm font-medium text-charcoal opacity-50 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg disabled:pointer-events-none"
+          >
+            Submit Vote
+          </button>
+          <p class="mt-4 text-xs font-light text-cream/45">
+            One vote per browser for now. Aggregate results are reviewed privately.
+          </p>
+          <p id="vote-error" class="mt-3 hidden text-sm text-red-300"></p>
+        </div>
+
+        <div id="vote-success" class="hidden">
+          <p class="text-xs font-semibold uppercase tracking-[0.15em] text-gold-light">
+            Vote received
+          </p>
+          <h3 class="mt-3 font-serif text-3xl text-cream" style="letter-spacing: -0.02em;">
+            Thank you.
+          </h3>
+          <p class="mt-5 text-sm font-light leading-relaxed text-cream/70" style="line-height: 1.8;">
+            Your vote from this browser has been recorded. We keep individual ballots private and review the totals internally.
+          </p>
+
+          <div class="mt-8 rounded-2xl border border-white/10 bg-black/15 px-5 py-5">
+            <p class="text-[11px] font-semibold uppercase tracking-[0.15em] text-cream/45">
+              Your pick
+            </p>
+            <p id="selected-vote" class="mt-2 font-serif text-2xl text-cream"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { db } from '../lib/firebase';
+  import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+
+  const storageKey = 'club-name-vote-v1';
+  const submitBtn = document.getElementById('submit-vote') as HTMLButtonElement | null;
+  const voterName = document.getElementById('voter-name') as HTMLInputElement | null;
+  const voterEmail = document.getElementById('voter-email') as HTMLInputElement | null;
+  const customName = document.getElementById('custom-name') as HTMLInputElement | null;
+  const formShell = document.getElementById('vote-form-shell') as HTMLElement | null;
+  const successEl = document.getElementById('vote-success') as HTMLElement | null;
+  const selectedVoteEl = document.getElementById('selected-vote') as HTMLElement | null;
+  const errorEl = document.getElementById('vote-error') as HTMLElement | null;
+
+  function readStoredVote() {
+    try {
+      const stored = window.localStorage.getItem(storageKey);
+      return stored ? JSON.parse(stored) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function showSuccess(choice: string) {
+    if (selectedVoteEl) {
+      selectedVoteEl.textContent = choice;
+    }
+    formShell?.classList.add('hidden');
+    successEl?.classList.remove('hidden');
+  }
+
+  function validateForm() {
+    const selected = (document.querySelector('input[name="clubName"]:checked') as HTMLInputElement | null)?.value;
+    const hasName = (voterName?.value.trim().length || 0) > 0;
+    const hasChoice = Boolean(selected && (selected !== '__custom__' || (customName?.value.trim().length || 0) > 0));
+    const isLocked = Boolean(readStoredVote());
+
+    if (!submitBtn) return;
+    submitBtn.disabled = isLocked || !(hasName && hasChoice);
+    submitBtn.classList.toggle('opacity-50', submitBtn.disabled);
+  }
+
+  const storedVote = readStoredVote();
+  if (storedVote?.choice) {
+    showSuccess(storedVote.choice);
+  }
+
+  document.querySelectorAll('input[name="clubName"]').forEach((radio) => {
+    radio.addEventListener('change', () => {
+      const isCustom = (radio as HTMLInputElement).value === '__custom__';
+      customName?.classList.toggle('hidden', !isCustom);
+      if (isCustom) {
+        customName?.focus();
+      }
+      validateForm();
+    });
+  });
+
+  customName?.addEventListener('input', validateForm);
+  voterName?.addEventListener('input', validateForm);
+
+  submitBtn?.addEventListener('click', async () => {
+    if (readStoredVote()) {
+      validateForm();
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+    errorEl?.classList.add('hidden');
+
+    try {
+      let selectedName = (document.querySelector('input[name="clubName"]:checked') as HTMLInputElement | null)?.value || '';
+      if (selectedName === '__custom__') {
+        selectedName = customName?.value.trim() || '';
+      }
+
+      const trimmedName = voterName?.value.trim() || '';
+      const normalizedEmail = voterEmail?.value.trim().toLowerCase() || '';
+
+      if (!selectedName || selectedName.length > 80) {
+        throw new Error('Please choose a name option or enter your own suggestion.');
+      }
+      if (!trimmedName || trimmedName.length > 80) {
+        throw new Error('Please enter your name.');
+      }
+      if (normalizedEmail.length > 254) {
+        throw new Error('Please use a shorter email address.');
+      }
+
+      await addDoc(collection(db, 'votes'), {
+        clubName: selectedName,
+        voterName: trimmedName,
+        voterEmail: normalizedEmail || null,
+        createdAt: serverTimestamp(),
+      });
+
+      try {
+        window.localStorage.setItem(storageKey, JSON.stringify({
+          choice: selectedName,
+          submittedAt: Date.now(),
+        }));
+      } catch {
+        // Ignore storage failures; the vote itself has already been recorded.
+      }
+
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'name_vote_submitted', { option: selectedName });
+      }
+
+      showSuccess(selectedName);
+    } catch (err) {
+      if (errorEl) {
+        errorEl.textContent = err instanceof Error ? err.message : 'Something went wrong. Please try again.';
+        errorEl.classList.remove('hidden');
+      }
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Vote';
+      validateForm();
+    }
+  });
+
+  validateForm();
+</script>

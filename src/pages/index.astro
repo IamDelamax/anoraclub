@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
+import NameVote from '../components/NameVote.astro';
 import Positioning from '../components/Positioning.astro';
 import PathChooser from '../components/PathChooser.astro';
 import WhosInside from '../components/WhosInside.astro';
@@ -10,9 +11,6 @@ import Membership from '../components/Membership.astro';
 import HowItWorks from '../components/HowItWorks.astro';
 import NotForEveryone from '../components/NotForEveryone.astro';
 import Events from '../components/Events.astro';
-import EventRecap from '../components/EventRecap.astro';
-import CityGuide from '../components/CityGuide.astro';
-import NewsletterSignup from '../components/NewsletterSignup.astro';
 import CTA from '../components/CTA.astro';
 import Footer from '../components/Footer.astro';
 import MobileCTA from '../components/MobileCTA.astro';
@@ -21,17 +19,15 @@ import MobileCTA from '../components/MobileCTA.astro';
 <Layout>
   <Nav />
   <Hero />
-  <Positioning />
+  <NameVote />
   <PathChooser />
-  <WhosInside />
+  <Positioning />
   <WhyAnora />
+  <WhosInside />
+  <NotForEveryone />
   <Membership />
   <HowItWorks />
-  <NotForEveryone />
   <Events />
-  <EventRecap />
-  <CityGuide />
-  <NewsletterSignup />
   <CTA />
   <Footer />
   <MobileCTA />
