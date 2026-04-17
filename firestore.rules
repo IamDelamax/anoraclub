@@ -2,38 +2,194 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Applications: allow anyone to create, allow reads for status checking
-    match /applications/{document=**} {
-      allow create: if true;
+    function isAdmin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
+
+    function isNonEmptyString(value, max) {
+      return value is string && value.size() > 0 && value.size() <= max;
+    }
+
+    function isOptionalString(value, max) {
+      return value == null || (value is string && value.size() <= max);
+    }
+
+    function isEmail(value) {
+      return value is string
+        && value.size() <= 254
+        && value.matches('^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$');
+    }
+
+    function isTimestampField(value) {
+      return value is timestamp && value == request.time;
+    }
+
+    function isApplicationSubmission() {
+      return request.resource.data.keys().hasAll([
+          'firstName',
+          'lastName',
+          'email',
+          'age',
+          'gender',
+          'whatYouDo',
+          'whatYouLookFor',
+          'instagram',
+          'linkedin',
+          'referralSource',
+          'referredBy',
+          'createdAt',
+          'status',
+        ])
+        && request.resource.data.keys().hasOnly([
+          'firstName',
+          'lastName',
+          'email',
+          'age',
+          'gender',
+          'whatYouDo',
+          'whatYouLookFor',
+          'instagram',
+          'linkedin',
+          'referralSource',
+          'referredBy',
+          'createdAt',
+          'status',
+        ])
+        && isNonEmptyString(request.resource.data.firstName, 80)
+        && isNonEmptyString(request.resource.data.lastName, 80)
+        && isEmail(request.resource.data.email)
+        && request.resource.data.age is string
+        && request.resource.data.age.matches('^(24-27|28-31|32-35|36-39|40-45|46-50|51-55|55\\+)$')
+        && request.resource.data.gender is string
+        && request.resource.data.gender.matches('^(Man|Woman|Non-binary|Prefer not to say)$')
+        && isNonEmptyString(request.resource.data.whatYouDo, 1000)
+        && isNonEmptyString(request.resource.data.whatYouLookFor, 1000)
+        && isOptionalString(request.resource.data.instagram, 80)
+        && isOptionalString(request.resource.data.linkedin, 200)
+        && request.resource.data.referralSource is string
+        && request.resource.data.referralSource.matches('^(A current member|A friend|Instagram|LinkedIn|Twitter/X|Other)$')
+        && isOptionalString(request.resource.data.referredBy, 120)
+        && request.resource.data.status == 'pending'
+        && isTimestampField(request.resource.data.createdAt);
+    }
+
+    function isNominationSubmission() {
+      return request.resource.data.keys().hasAll([
+          'nominatorName',
+          'nominatorEmail',
+          'friendName',
+          'friendContact',
+          'whyGreatFit',
+          'createdAt',
+          'status',
+        ])
+        && request.resource.data.keys().hasOnly([
+          'nominatorName',
+          'nominatorEmail',
+          'friendName',
+          'friendContact',
+          'whyGreatFit',
+          'createdAt',
+          'status',
+        ])
+        && isNonEmptyString(request.resource.data.nominatorName, 120)
+        && isEmail(request.resource.data.nominatorEmail)
+        && isNonEmptyString(request.resource.data.friendName, 120)
+        && isNonEmptyString(request.resource.data.friendContact, 200)
+        && isNonEmptyString(request.resource.data.whyGreatFit, 1500)
+        && request.resource.data.status == 'pending'
+        && isTimestampField(request.resource.data.createdAt);
+    }
+
+    function isNewsletterSignup() {
+      return request.resource.id == request.resource.data.email
+        && request.resource.data.keys().hasAll([
+          'email',
+          'source',
+          'updatedAt',
+          'status',
+        ])
+        && request.resource.data.keys().hasOnly([
+          'email',
+          'source',
+          'updatedAt',
+          'status',
+        ])
+        && isEmail(request.resource.data.email)
+        && isOptionalString(request.resource.data.source, 120)
+        && request.resource.data.status == 'active'
+        && isTimestampField(request.resource.data.updatedAt);
+    }
+
+    function isVoteSubmission() {
+      return request.resource.data.keys().hasAll([
+          'clubName',
+          'voterName',
+          'voterEmail',
+          'createdAt',
+        ])
+        && request.resource.data.keys().hasOnly([
+          'clubName',
+          'voterName',
+          'voterEmail',
+          'createdAt',
+        ])
+        && isNonEmptyString(request.resource.data.clubName, 80)
+        && isNonEmptyString(request.resource.data.voterName, 80)
+        && (request.resource.data.voterEmail == null || isEmail(request.resource.data.voterEmail))
+        && isTimestampField(request.resource.data.createdAt);
+    }
+
+    function isStatusRequest() {
+      return request.resource.id == request.resource.data.email
+        && request.resource.data.keys().hasAll([
+          'email',
+          'source',
+          'requestedAt',
+          'status',
+        ])
+        && request.resource.data.keys().hasOnly([
+          'email',
+          'source',
+          'requestedAt',
+          'status',
+        ])
+        && isEmail(request.resource.data.email)
+        && isOptionalString(request.resource.data.source, 120)
+        && request.resource.data.status == 'pending'
+        && isTimestampField(request.resource.data.requestedAt);
+    }
+
+    match /applications/{document} {
+      allow create: if isApplicationSubmission();
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /nominations/{document} {
+      allow create: if isNominationSubmission();
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /counters/{document} {
       allow read: if true;
-      allow update, delete: if false;
+      allow create, update, delete: if isAdmin();
     }
 
-    // Nominations: allow anyone to create, only admins can read/update/delete
-    match /nominations/{document=**} {
-      allow create: if true;
-      allow read, update, delete: if false;
+    match /newsletter_subscribers/{document} {
+      allow create, update: if isNewsletterSignup();
+      allow read, delete: if isAdmin();
     }
 
-    // Counters: allow anyone to read, allow writes (for atomic increments)
-    match /counters/{document=**} {
-      allow read: if true;
-      allow write: if true;
+    match /votes/{document} {
+      allow create: if isVoteSubmission();
+      allow read, update, delete: if isAdmin();
     }
 
-    // Newsletter subscribers: use email as doc ID, write-only (no read needed)
-    match /newsletter_subscribers/{document=**} {
-      allow create, update: if true;
-      allow read, delete: if false;
+    match /status_requests/{document} {
+      allow create, update: if isStatusRequest();
+      allow read, delete: if isAdmin();
     }
 
-    // Votes: allow anyone to create and read (for showing results)
-    match /votes/{document=**} {
-      allow create, read: if true;
-      allow update, delete: if false;
-    }
-
-    // Deny everything else
     match /{document=**} {
       allow read, write: if false;
     }

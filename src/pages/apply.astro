@@ -232,7 +232,7 @@ import Layout from '../layouts/Layout.astro';
           </div>
 
           <p class="mt-10 text-xs font-light text-muted">
-            Your spot is reserved in the queue. We'll be in touch.
+            Your application is in our private review queue. We'll be in touch by email.
           </p>
         </div>
       </div>
@@ -269,7 +269,7 @@ import Layout from '../layouts/Layout.astro';
 
 <script>
   import { db } from '../lib/firebase';
-  import { collection, addDoc, doc, getDoc, runTransaction, serverTimestamp } from 'firebase/firestore';
+  import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
   const TOTAL_STEPS = 8;
   let currentStep = 0;
@@ -445,22 +445,6 @@ import Layout from '../layouts/Layout.astro';
     collectStepData(currentStep);
 
     try {
-      // Increment counter and get queue number
-      let queueNumber = 0;
-      const counterRef = doc(db, 'counters', 'applications');
-
-      try {
-        queueNumber = await runTransaction(db, async (transaction) => {
-          const counterDoc = await transaction.get(counterRef);
-          const currentCount = counterDoc.exists() ? (counterDoc.data().count ?? 812) : 812;
-          const newCount = currentCount + 1;
-          transaction.set(counterRef, { count: newCount }, { merge: true });
-          return newCount;
-        });
-      } catch {
-        queueNumber = Math.floor(Math.random() * 100) + 813;
-      }
-
       await addDoc(collection(db, 'applications'), {
         firstName: formData.firstName || '',
         lastName: formData.lastName || '',
@@ -475,10 +459,9 @@ import Layout from '../layouts/Layout.astro';
         referredBy: formData.referredBy || null,
         createdAt: serverTimestamp(),
         status: 'pending',
-        queueNumber: queueNumber,
       });
 
-      trackEvent('application_submitted', { queueNumber });
+      trackEvent('application_submitted');
       goToStep(7);
     } catch (err) {
       console.error('Error submitting:', err);

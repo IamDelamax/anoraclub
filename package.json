@@ -9,7 +9,11 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "audit:prod": "npm audit --omit=dev"
+  },
+  "overrides": {
+    "protobufjs": "^7.5.5"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",
