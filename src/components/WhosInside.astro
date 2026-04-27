@@ -1,0 +1,39 @@
+---
+const profiles = [
+  'A founder or operator who has built a lot professionally and wants more intention socially.',
+  'A doctor, lawyer, or creative lead who is warm in person and done with performative dating.',
+  'Someone recently relocated to San Francisco or Los Angeles and looking for real community, not more networking.',
+  'A couple investing in a richer social life with other thoughtful, ambitious pairs.',
+  'A builder with high standards, emotional range, and actual curiosity about other people.',
+  'Someone who wants rooms with taste, conversation, and follow-through instead of chaos.',
+];
+---
+
+<section class="bg-warm-white px-6 py-28 md:py-36">
+  <div class="mx-auto max-w-[1100px]">
+    <div class="fade-in-up mb-14 text-center">
+      <p class="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-gold">
+        Illustrative Examples
+      </p>
+      <h2
+        class="mx-auto max-w-[800px] font-serif font-normal leading-tight"
+        style="font-size: clamp(2.2rem, 4vw, 3.2rem); letter-spacing: -0.02em;"
+      >
+        The kind of people you’ll meet.
+      </h2>
+      <p class="mx-auto mt-5 max-w-[620px] text-sm font-light text-muted" style="line-height: 1.75;">
+        Not member profiles. Just the general energy of the room we’re building.
+      </p>
+    </div>
+
+    <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      {profiles.map((profile) => (
+        <div class="fade-in-up rounded-2xl border border-divider bg-cream p-6">
+          <p class="font-serif text-base italic text-soft-black" style="line-height: 1.75;">
+            "{profile}"
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,53 @@
+---
+const events = [
+  {
+    title: 'Dinner salons',
+    description: 'Small tables, good questions, and a pace that makes conversation feel easy instead of performative.',
+    marker: '01',
+  },
+  {
+    title: 'Hosted cocktail evenings',
+    description: 'The energy of a strong house party with better composition, better introductions, and less noise.',
+    marker: '02',
+  },
+  {
+    title: 'Smaller cultural formats',
+    description: 'Gallery visits, talks, and outings that give people something real to connect around.',
+    marker: '03',
+  },
+];
+---
+<section id="events" class="bg-cream px-6 py-28 md:py-32">
+  <div class="mx-auto max-w-[1100px]">
+    <div class="fade-in-up text-center">
+      <p class="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-gold">
+        Experiences
+      </p>
+      <h2
+        class="font-serif font-normal leading-tight"
+        style="font-size: clamp(2.2rem, 4vw, 3.2rem); letter-spacing: -0.02em;"
+      >
+        Three event types. One reason to go.
+      </h2>
+      <p class="mx-auto mt-4 max-w-2xl text-base font-light text-muted" style="line-height: 1.75;">
+        Each format is built to make conversation, chemistry, and follow-through easier.
+      </p>
+    </div>
+
+    <div class="fade-in-up mx-auto mt-14 grid gap-6 lg:grid-cols-3">
+      {events.map((event) => (
+        <div class="rounded-2xl border border-divider bg-warm-white p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+          <p class="text-xs font-semibold uppercase tracking-[0.15em] text-gold">{event.marker}</p>
+          <h3 class="mt-4 font-serif text-2xl text-charcoal">{event.title}</h3>
+          <p class="mt-4 text-sm font-light leading-relaxed text-muted" style="line-height: 1.8;">
+            {event.description}
+          </p>
+        </div>
+      ))}
+    </div>
+
+    <p class="fade-in-up mx-auto mt-14 max-w-2xl text-center font-serif text-lg italic text-muted" style="line-height: 1.75;">
+      The goal is not more attendance. It’s better rooms, better context, and better odds of something real beginning there.
+    </p>
+  </div>
+</section>

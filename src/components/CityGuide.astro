@@ -1,0 +1,99 @@
+---
+const spots = [
+  {
+    name: 'Zuni Café',
+    type: 'Restaurant',
+    neighborhood: 'Hayes Valley',
+    take: 'The roast chicken for two is a ritual. Go on a weeknight, sit at the bar, and watch the room fill with people who actually live here.',
+  },
+  {
+    name: 'Specs\' Twelve Adler Museum Cafe',
+    type: 'Bar',
+    neighborhood: 'North Beach',
+    take: 'No sign, no pretense. A bar covered in oddities where conversation is the only entertainment. Exactly the vibe.',
+  },
+  {
+    name: 'Minnesota Street Project',
+    type: 'Gallery',
+    neighborhood: 'Dogpatch',
+    take: 'Warehouse-scale contemporary art that rotates constantly. Free. Uncrowded. The best gallery experience in the city.',
+  },
+  {
+    name: 'Tartine Manufactory',
+    type: 'Café',
+    neighborhood: 'Mission',
+    take: 'Come for the morning bun, stay for the light. The kind of place where you end up talking to a stranger and meaning it.',
+  },
+  {
+    name: 'Tosca Cafe',
+    type: 'Bar & Restaurant',
+    neighborhood: 'North Beach',
+    take: 'Red leather booths, an old jukebox, and the best house cappuccino (it has brandy). Old San Francisco at its finest.',
+  },
+  {
+    name: 'Fort Point Beer Co.',
+    type: 'Brewery & Taproom',
+    neighborhood: 'Presidio',
+    take: 'Sit outside at the Presidio location, watch the fog roll in, and drink something crisp. Best sunset spot in the city.',
+  },
+  {
+    name: 'Green Apple Books',
+    type: 'Bookstore',
+    neighborhood: 'Inner Richmond',
+    take: 'Three floors of used books, zero algorithm. The kind of browsing that leads to real discovery — and real conversation.',
+  },
+  {
+    name: 'Chez Panisse',
+    type: 'Restaurant',
+    neighborhood: 'Berkeley',
+    take: 'Worth the trip across the bridge. Fixed menu, seasonal everything, and the feeling that dinner is an event — not just a meal.',
+  },
+];
+---
+
+<section id="guide" class="bg-alt-bg px-6 py-28 md:py-32">
+  <div class="mx-auto max-w-[1100px]">
+    <!-- Header -->
+    <div class="fade-in-up text-center mb-14">
+      <p class="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-gold">
+        The Guide
+      </p>
+      <h2
+        class="font-serif font-normal leading-tight"
+        style="font-size: clamp(2rem, 3.5vw, 2.8rem); letter-spacing: -0.02em;"
+      >
+        Where Anora members go.
+      </h2>
+      <p class="mx-auto mt-4 max-w-lg text-sm font-light text-muted" style="line-height: 1.75;">
+        A short list of places in San Francisco that match the energy. No sponsorships, no ads — just taste.
+      </p>
+    </div>
+
+    <!-- Spots grid -->
+    <div class="fade-in-up grid gap-4 sm:grid-cols-2">
+      {spots.map((spot) => (
+        <div class="rounded-2xl border border-divider bg-warm-white p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+          <div class="flex items-start justify-between mb-2">
+            <h3 class="font-serif text-lg text-charcoal" style="letter-spacing: -0.01em;">
+              {spot.name}
+            </h3>
+            <span class="ml-3 shrink-0 rounded-full border border-divider px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-muted">
+              {spot.type}
+            </span>
+          </div>
+          <p class="text-xs font-medium text-gold mb-2">{spot.neighborhood}</p>
+          <p class="text-sm font-light italic text-muted" style="line-height: 1.7;">
+            {spot.take}
+          </p>
+        </div>
+      ))}
+    </div>
+
+    <!-- Note -->
+    <div class="fade-in-up mt-12 text-center">
+      <p class="text-xs font-light text-muted/60">
+        Updated seasonally. Suggestions welcome via <a href="https://t.me/delamax" target="_blank" rel="noopener noreferrer" class="underline decoration-gold/40 underline-offset-4 hover:decoration-gold transition-colors">Telegram</a>.
+      </p>
+    </div>
+  </div>
+</section>

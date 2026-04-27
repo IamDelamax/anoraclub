@@ -1,0 +1,352 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Nominate a Friend — The Club"
+  description="Know someone who would be a strong fit for the club? Nominated applicants are reviewed with priority."
+  canonicalPath="/nominate"
+>
+  <div id="nominate-app" class="fixed inset-0 bg-warm-white">
+    <!-- Progress bar -->
+    <div class="fixed top-0 left-0 right-0 z-50 h-[3px] bg-divider">
+      <div id="nom-progress-bar" class="h-full bg-gold transition-all duration-500 ease-out" style="width: 0%"></div>
+    </div>
+
+    <!-- Step counter -->
+    <div class="fixed top-6 right-8 z-50 text-xs font-light tracking-wide text-muted">
+      <span id="nom-step-label"></span>
+    </div>
+
+    <!-- Back button -->
+    <button id="nom-back-btn" class="fixed top-6 left-8 z-50 hidden text-sm font-light text-muted transition-colors hover:text-charcoal" type="button">
+      &larr; Back
+    </button>
+
+    <!-- Steps container -->
+    <div id="nom-steps-container" class="flex h-full items-center justify-center overflow-hidden px-6">
+
+      <!-- Step 0: Welcome -->
+      <div class="nom-step active absolute inset-0 flex items-center justify-center px-6" data-step="0">
+        <div class="mx-auto max-w-[560px] text-center">
+          <p class="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-gold">
+            Nomination
+          </p>
+          <h1 class="font-serif font-normal leading-tight" style="font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.02em;">
+            The best members come from the best members.
+          </h1>
+          <p class="mx-auto mt-5 max-w-md font-light text-muted" style="line-height: 1.75;">
+            Nominated applicants are reviewed with priority and a higher acceptance rate. If you know someone who belongs here, tell us.
+          </p>
+          <button type="button" class="nom-next mt-10 rounded-full bg-charcoal px-10 py-4 text-sm font-medium text-cream transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg">
+            Nominate Someone &rarr;
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 1: Your info -->
+      <div class="nom-step absolute inset-0 flex items-center justify-center px-6" data-step="1">
+        <div class="mx-auto w-full max-w-[560px]">
+          <h2 class="mb-8 font-serif font-normal leading-tight" style="font-size: clamp(1.8rem, 3.5vw, 2.6rem); letter-spacing: -0.02em;">
+            First, a bit about you.
+          </h2>
+          <div class="space-y-5">
+            <div>
+              <label for="nomName" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-muted">Your name</label>
+              <input type="text" id="nomName" name="nominatorName" required autocomplete="name"
+                class="w-full border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30" />
+            </div>
+            <div>
+              <label for="nomEmail" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-muted">Your email</label>
+              <input type="email" id="nomEmail" name="nominatorEmail" required autocomplete="email"
+                class="w-full border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30" />
+            </div>
+          </div>
+          <button type="button" class="nom-next mt-10 rounded-full bg-charcoal px-10 py-4 text-sm font-medium text-cream opacity-40 transition-all duration-200" disabled>
+            Continue
+          </button>
+          <p class="mt-3 text-xs font-light text-muted/50">or press Enter ↵</p>
+        </div>
+      </div>
+
+      <!-- Step 2: Friend's info -->
+      <div class="nom-step absolute inset-0 flex items-center justify-center px-6" data-step="2">
+        <div class="mx-auto w-full max-w-[560px]">
+          <h2 class="mb-8 font-serif font-normal leading-tight" style="font-size: clamp(1.8rem, 3.5vw, 2.6rem); letter-spacing: -0.02em;">
+            Who are you nominating?
+          </h2>
+          <div class="space-y-5">
+            <div>
+              <label for="friendName" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-muted">Their name</label>
+              <input type="text" id="friendName" name="friendName" required
+                class="w-full border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30" />
+            </div>
+            <div>
+              <label for="friendContact" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-muted">Their email or Instagram</label>
+              <input type="text" id="friendContact" name="friendContact" required placeholder="email@example.com or @instagram"
+                class="w-full border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30" />
+            </div>
+          </div>
+          <button type="button" class="nom-next mt-10 rounded-full bg-charcoal px-10 py-4 text-sm font-medium text-cream opacity-40 transition-all duration-200" disabled>
+            Continue
+          </button>
+          <p class="mt-3 text-xs font-light text-muted/50">or press Enter ↵</p>
+        </div>
+      </div>
+
+      <!-- Step 3: Why they're great -->
+      <div class="nom-step absolute inset-0 flex items-center justify-center px-6" data-step="3">
+        <div class="mx-auto w-full max-w-[560px]">
+          <h2 class="mb-8 font-serif font-normal leading-tight" style="font-size: clamp(1.8rem, 3.5vw, 2.6rem); letter-spacing: -0.02em;">
+            What makes them a great fit?
+          </h2>
+          <textarea id="whyGreatFit" name="whyGreatFit" rows="4" required
+            class="w-full resize-none border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30"></textarea>
+          <button type="button" class="nom-next nom-submit mt-10 rounded-full bg-charcoal px-10 py-4 text-sm font-medium text-cream opacity-40 transition-all duration-200" disabled>
+            Submit Nomination
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 4: Confirmation -->
+      <div class="nom-step absolute inset-0 flex items-center justify-center px-6" data-step="4">
+        <div class="mx-auto max-w-[560px] text-center">
+          <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full border-2 border-gold/30">
+            <svg class="h-7 w-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+          </div>
+          <h2 class="font-serif font-normal leading-tight" style="font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.02em;">
+            Nomination sent.
+          </h2>
+          <p class="mx-auto mt-4 max-w-md font-light text-muted" style="line-height: 1.75;">
+            We'll reach out to them within a week.
+          </p>
+
+          <div class="mx-auto mt-10 max-w-sm space-y-4">
+            <p class="text-sm font-medium text-charcoal">Want to nominate another person?</p>
+            <button type="button" id="nom-another" class="rounded-full bg-charcoal px-8 py-3.5 text-sm font-medium text-cream transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg">
+              Nominate Another &rarr;
+            </button>
+          </div>
+
+          <a href="/" class="mt-8 inline-block text-sm font-light text-gold transition-colors hover:text-charcoal">
+            &larr; Back to home
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Error toast -->
+    <div id="nom-error" class="fixed bottom-8 left-1/2 z-50 hidden -translate-x-1/2 rounded-xl border border-red-200 bg-red-50 px-6 py-3 text-sm text-red-600 shadow-lg"></div>
+  </div>
+</Layout>
+
+<style>
+  .nom-step {
+    opacity: 0;
+    transform: translateX(60px);
+    pointer-events: none;
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+  }
+  .nom-step.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+  .nom-step.exit-left {
+    opacity: 0;
+    transform: translateX(-60px);
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  import { db } from '../lib/firebase';
+  import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+
+  const TOTAL_STEPS = 5;
+  let currentStep = 0;
+  let formData: Record<string, string> = {};
+
+  const progressBar = document.getElementById('nom-progress-bar') as HTMLDivElement;
+  const stepLabel = document.getElementById('nom-step-label') as HTMLSpanElement;
+  const backBtn = document.getElementById('nom-back-btn') as HTMLButtonElement;
+  const errorDiv = document.getElementById('nom-error') as HTMLDivElement;
+  const steps = document.querySelectorAll('.nom-step');
+
+  function updateProgress() {
+    const pct = currentStep === 0 ? 0 : (currentStep / (TOTAL_STEPS - 1)) * 100;
+    progressBar.style.width = `${pct}%`;
+    stepLabel.textContent = currentStep === 0 || currentStep === TOTAL_STEPS - 1 ? '' : `${currentStep} of ${TOTAL_STEPS - 2}`;
+    backBtn.classList.toggle('hidden', currentStep === 0 || currentStep === TOTAL_STEPS - 1);
+  }
+
+  function goToStep(n: number) {
+    const current = document.querySelector(`.nom-step[data-step="${currentStep}"]`) as HTMLElement;
+    const next = document.querySelector(`.nom-step[data-step="${n}"]`) as HTMLElement;
+    if (!current || !next) return;
+
+    if (n > currentStep) {
+      current.classList.remove('active');
+      current.classList.add('exit-left');
+    } else {
+      current.classList.remove('active');
+      current.style.transform = 'translateX(60px)';
+      current.style.opacity = '0';
+    }
+
+    next.classList.remove('exit-left');
+    if (n < currentStep) {
+      next.style.transform = 'translateX(-60px)';
+      next.style.opacity = '0';
+    }
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        next.classList.add('active');
+        next.style.transform = '';
+        next.style.opacity = '';
+        current.style.transform = '';
+        current.style.opacity = '';
+      });
+    });
+
+    currentStep = n;
+    updateProgress();
+
+    setTimeout(() => {
+      const firstInput = next.querySelector('input, textarea') as HTMLElement;
+      if (firstInput) firstInput.focus();
+    }, 450);
+  }
+
+  function setupValidation() {
+    steps.forEach((step) => {
+      const inputs = step.querySelectorAll('input[required], textarea[required]');
+      const btn = step.querySelector('.nom-next') as HTMLButtonElement;
+      if (!btn || !inputs.length) return;
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const check = () => {
+        const filled = Array.from(inputs).every((el) => {
+          const input = el as HTMLInputElement | HTMLTextAreaElement;
+          if (input.value.trim() === '') return false;
+          if (input.type === 'email' && !emailRegex.test(input.value.trim())) return false;
+          return true;
+        });
+        btn.disabled = !filled;
+        btn.classList.toggle('opacity-40', !filled);
+        if (filled) {
+          btn.classList.add('hover:-translate-y-0.5', 'hover:shadow-lg');
+        } else {
+          btn.classList.remove('hover:-translate-y-0.5', 'hover:shadow-lg');
+        }
+      };
+
+      inputs.forEach((el) => el.addEventListener('input', check));
+    });
+  }
+
+  function collectStepData(stepNum: number) {
+    const step = document.querySelector(`.nom-step[data-step="${stepNum}"]`) as HTMLElement;
+    if (!step) return;
+    const inputs = step.querySelectorAll('input, textarea');
+    inputs.forEach((el) => {
+      const input = el as HTMLInputElement | HTMLTextAreaElement;
+      if (input.name) {
+        formData[input.name] = input.value.trim();
+      }
+    });
+  }
+
+  document.querySelectorAll('.nom-next').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      if ((btn as HTMLButtonElement).disabled) return;
+      collectStepData(currentStep);
+
+      if (btn.classList.contains('nom-submit')) {
+        await submitNomination();
+      } else {
+        goToStep(currentStep + 1);
+      }
+    });
+  });
+
+  backBtn.addEventListener('click', () => {
+    if (currentStep > 0) goToStep(currentStep - 1);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      if (document.activeElement?.tagName === 'TEXTAREA') return;
+      const activeStep = document.querySelector(`.nom-step[data-step="${currentStep}"]`) as HTMLElement;
+      if (!activeStep) return;
+      const btn = activeStep.querySelector('.nom-next') as HTMLButtonElement;
+      if (btn && !btn.disabled) {
+        e.preventDefault();
+        btn.click();
+      }
+    }
+  });
+
+  // Nominate another
+  document.getElementById('nom-another')?.addEventListener('click', () => {
+    formData = {};
+    isSubmitting = false;
+    // Clear all inputs
+    document.querySelectorAll('.nom-step input, .nom-step textarea').forEach((el) => {
+      (el as HTMLInputElement).value = '';
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    // Reset to step 1 (skip welcome)
+    const current = document.querySelector(`.nom-step[data-step="${currentStep}"]`) as HTMLElement;
+    current?.classList.remove('active');
+    currentStep = 1;
+    const next = document.querySelector('.nom-step[data-step="1"]') as HTMLElement;
+    next?.classList.remove('exit-left');
+    next?.classList.add('active');
+    updateProgress();
+    setTimeout(() => {
+      const firstInput = next?.querySelector('input') as HTMLElement;
+      if (firstInput) firstInput.focus();
+    }, 100);
+  });
+
+  let isSubmitting = false;
+  async function submitNomination() {
+    if (isSubmitting) return;
+    isSubmitting = true;
+    collectStepData(currentStep);
+
+    try {
+      await addDoc(collection(db, 'nominations'), {
+        nominatorName: formData.nominatorName || '',
+        nominatorEmail: (formData.nominatorEmail || '').toLowerCase(),
+        friendName: formData.friendName || '',
+        friendContact: formData.friendContact || '',
+        whyGreatFit: formData.whyGreatFit || '',
+        createdAt: serverTimestamp(),
+        status: 'pending',
+      });
+
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'nomination_submitted');
+      }
+
+      goToStep(4);
+    } catch (err) {
+      console.error('Error submitting nomination:', err);
+      isSubmitting = false;
+      errorDiv.textContent = 'Something went wrong. Please try again.';
+      errorDiv.classList.remove('hidden');
+      setTimeout(() => errorDiv.classList.add('hidden'), 4000);
+    }
+  }
+
+  if (typeof window !== 'undefined' && (window as any).gtag) {
+    (window as any).gtag('event', 'nomination_started');
+  }
+
+  updateProgress();
+  setupValidation();
+</script>

@@ -1,0 +1,489 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Apply — The Club"
+  description="Apply for membership to our private social club for ambitious people in San Francisco and Los Angeles."
+  canonicalPath="/apply"
+>
+  <div id="apply-app" class="fixed inset-0 bg-warm-white">
+    <!-- Progress bar -->
+    <div class="fixed top-0 left-0 right-0 z-50 h-[3px] bg-divider">
+      <div id="progress-bar" class="h-full bg-gold transition-all duration-500 ease-out" style="width: 0%"></div>
+    </div>
+
+    <!-- Step counter -->
+    <div class="fixed top-6 right-8 z-50 text-xs font-light tracking-wide text-muted">
+      <span id="step-label"></span>
+    </div>
+
+    <!-- Back button -->
+    <button id="back-btn" class="fixed top-6 left-8 z-50 hidden text-sm font-light text-muted transition-colors hover:text-charcoal" type="button">
+      &larr; Back
+    </button>
+
+    <!-- Steps container -->
+    <div id="steps-container" class="flex h-full items-center justify-center overflow-hidden px-6">
+
+      <!-- Step 0: Welcome -->
+      <div class="step active absolute inset-0 flex items-center justify-center px-6" data-step="0">
+        <div class="mx-auto max-w-[560px] text-center">
+          <p class="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-gold">
+            Membership Application
+          </p>
+          <h1 class="font-serif font-normal leading-tight" style="font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.02em;">
+            This takes about 2 minutes.
+          </h1>
+          <p class="mx-auto mt-4 max-w-md font-serif text-lg italic text-muted" style="line-height: 1.75;">
+            We read every application personally.
+          </p>
+          <button type="button" class="apply-next mt-10 rounded-full bg-charcoal px-10 py-4 text-sm font-medium text-cream transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg">
+            Begin Application &rarr;
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 1: Name -->
+      <div class="step absolute inset-0 flex items-center justify-center px-6" data-step="1">
+        <div class="mx-auto w-full max-w-[560px]">
+          <h2 class="mb-8 font-serif font-normal leading-tight" style="font-size: clamp(1.8rem, 3.5vw, 2.6rem); letter-spacing: -0.02em;">
+            What's your name?
+          </h2>
+          <div class="space-y-5">
+            <div>
+              <label for="firstName" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-muted">First name</label>
+              <input type="text" id="firstName" name="firstName" required autocomplete="given-name"
+                class="w-full border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30" />
+            </div>
+            <div>
+              <label for="lastName" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-muted">Last name</label>
+              <input type="text" id="lastName" name="lastName" required autocomplete="family-name"
+                class="w-full border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30" />
+            </div>
+          </div>
+          <button type="button" class="apply-next mt-10 rounded-full bg-charcoal px-10 py-4 text-sm font-medium text-cream opacity-40 transition-all duration-200" disabled>
+            Continue
+          </button>
+          <p class="mt-3 text-xs font-light text-muted/50">or press Enter ↵</p>
+        </div>
+      </div>
+
+      <!-- Step 2: Basics -->
+      <div class="step absolute inset-0 flex items-center justify-center px-6" data-step="2">
+        <div class="mx-auto w-full max-w-[560px]">
+          <h2 class="mb-8 font-serif font-normal leading-tight" style="font-size: clamp(1.8rem, 3.5vw, 2.6rem); letter-spacing: -0.02em;">
+            A few quick details.
+          </h2>
+          <div class="space-y-5">
+            <div>
+              <label for="email" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-muted">Email</label>
+              <input type="email" id="email" name="email" required autocomplete="email"
+                class="w-full border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30" />
+            </div>
+            <div class="grid grid-cols-2 gap-5">
+              <div>
+                <label for="age" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-muted">Age</label>
+                <select id="age" name="age" required
+                  class="w-full appearance-none border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold">
+                  <option value="" disabled selected class="text-muted/30">Select</option>
+                  <option value="24-27">24–27</option>
+                  <option value="28-31">28–31</option>
+                  <option value="32-35">32–35</option>
+                  <option value="36-39">36–39</option>
+                  <option value="40-45">40–45</option>
+                  <option value="46-50">46–50</option>
+                  <option value="51-55">51–55</option>
+                  <option value="55+">55+</option>
+                </select>
+              </div>
+              <div>
+                <label for="gender" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-muted">Gender</label>
+                <select id="gender" name="gender" required
+                  class="w-full appearance-none border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold">
+                  <option value="" disabled selected class="text-muted/30">Select</option>
+                  <option value="Man">Man</option>
+                  <option value="Woman">Woman</option>
+                  <option value="Non-binary">Non-binary</option>
+                  <option value="Prefer not to say">Prefer not to say</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="apply-next mt-10 rounded-full bg-charcoal px-10 py-4 text-sm font-medium text-cream opacity-40 transition-all duration-200" disabled>
+            Continue
+          </button>
+          <p class="mt-3 text-xs font-light text-muted/50">or press Enter ↵</p>
+        </div>
+      </div>
+
+      <!-- Step 3: What you do -->
+      <div class="step absolute inset-0 flex items-center justify-center px-6" data-step="3">
+        <div class="mx-auto w-full max-w-[560px]">
+          <h2 class="mb-3 font-serif font-normal leading-tight" style="font-size: clamp(1.8rem, 3.5vw, 2.6rem); letter-spacing: -0.02em;">
+            What do you do — and what are you building toward?
+          </h2>
+          <p class="mb-8 font-light text-muted" style="line-height: 1.75;">
+            Could be your job, your company, your craft, your obsession. We care less about titles and more about what drives you.
+          </p>
+          <textarea id="whatYouDo" name="whatYouDo" rows="4" required
+            class="w-full resize-none border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30"></textarea>
+          <button type="button" class="apply-next mt-10 rounded-full bg-charcoal px-10 py-4 text-sm font-medium text-cream opacity-40 transition-all duration-200" disabled>
+            Continue
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 4: What you're looking for -->
+      <div class="step absolute inset-0 flex items-center justify-center px-6" data-step="4">
+        <div class="mx-auto w-full max-w-[560px]">
+          <h2 class="mb-3 font-serif font-normal leading-tight" style="font-size: clamp(1.8rem, 3.5vw, 2.6rem); letter-spacing: -0.02em;">
+            What kind of person would make your life better?
+          </h2>
+          <p class="mb-8 font-light text-muted" style="line-height: 1.75;">
+            Be specific. "Someone smart and attractive" doesn't help us help you. What qualities, values, or energy are you drawn to?
+          </p>
+          <textarea id="whatYouLookFor" name="whatYouLookFor" rows="4" required
+            class="w-full resize-none border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30"></textarea>
+          <button type="button" class="apply-next mt-10 rounded-full bg-charcoal px-10 py-4 text-sm font-medium text-cream opacity-40 transition-all duration-200" disabled>
+            Continue
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 5: Social proof (optional) -->
+      <div class="step absolute inset-0 flex items-center justify-center px-6" data-step="5">
+        <div class="mx-auto w-full max-w-[560px]">
+          <h2 class="mb-3 font-serif font-normal leading-tight" style="font-size: clamp(1.8rem, 3.5vw, 2.6rem); letter-spacing: -0.02em;">
+            Where can we learn more about you?
+          </h2>
+          <p class="mb-8 font-light text-muted" style="line-height: 1.75;">
+            Totally optional — but it helps us understand who you are faster.
+          </p>
+          <div class="space-y-5">
+            <div>
+              <label for="instagram" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-muted">Instagram handle <span class="font-light normal-case tracking-normal text-muted/50">(optional)</span></label>
+              <input type="text" id="instagram" name="instagram" placeholder="@username"
+                class="w-full border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30" />
+            </div>
+            <div>
+              <label for="linkedin" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-muted">LinkedIn URL <span class="font-light normal-case tracking-normal text-muted/50">(optional)</span></label>
+              <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/..."
+                class="w-full border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30" />
+            </div>
+          </div>
+          <button type="button" class="apply-next mt-10 rounded-full bg-charcoal px-10 py-4 text-sm font-medium text-cream transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg">
+            Continue
+          </button>
+          <p class="mt-3 text-xs font-light text-muted/50">These are optional — skip if you'd like</p>
+        </div>
+      </div>
+
+      <!-- Step 6: Referral question -->
+      <div class="step absolute inset-0 flex items-center justify-center px-6" data-step="6">
+        <div class="mx-auto w-full max-w-[560px]">
+          <h2 class="mb-8 font-serif font-normal leading-tight" style="font-size: clamp(1.8rem, 3.5vw, 2.6rem); letter-spacing: -0.02em;">
+            How did you hear about the club?
+          </h2>
+          <div class="space-y-3" id="referral-options">
+            <button type="button" class="referral-option w-full rounded-xl border border-divider bg-cream px-5 py-4 text-left text-base text-charcoal transition-all hover:border-gold" data-value="A current member">A current member</button>
+            <button type="button" class="referral-option w-full rounded-xl border border-divider bg-cream px-5 py-4 text-left text-base text-charcoal transition-all hover:border-gold" data-value="A friend">A friend</button>
+            <button type="button" class="referral-option w-full rounded-xl border border-divider bg-cream px-5 py-4 text-left text-base text-charcoal transition-all hover:border-gold" data-value="Instagram">Instagram</button>
+            <button type="button" class="referral-option w-full rounded-xl border border-divider bg-cream px-5 py-4 text-left text-base text-charcoal transition-all hover:border-gold" data-value="LinkedIn">LinkedIn</button>
+            <button type="button" class="referral-option w-full rounded-xl border border-divider bg-cream px-5 py-4 text-left text-base text-charcoal transition-all hover:border-gold" data-value="Twitter/X">Twitter/X</button>
+            <button type="button" class="referral-option w-full rounded-xl border border-divider bg-cream px-5 py-4 text-left text-base text-charcoal transition-all hover:border-gold" data-value="Other">Other</button>
+          </div>
+          <div id="referred-by-field" class="mt-5 hidden">
+            <label for="referredBy" class="mb-2 block text-xs font-medium uppercase tracking-[0.12em] text-muted">Who referred you?</label>
+            <input type="text" id="referredBy" name="referredBy"
+              class="w-full border-b-2 border-divider bg-transparent py-3 text-lg text-charcoal outline-none transition-colors focus:border-gold placeholder:text-muted/30" />
+          </div>
+          <button type="button" id="referral-continue" class="apply-next mt-8 hidden rounded-full bg-charcoal px-10 py-4 text-sm font-medium text-cream transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg" disabled>
+            Continue
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 7: Confirmation -->
+      <div class="step absolute inset-0 flex items-center justify-center px-6" data-step="7">
+        <div class="mx-auto max-w-[560px] text-center">
+          <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full border-2 border-gold/30">
+            <svg class="h-7 w-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+          </div>
+          <h2 class="font-serif font-normal leading-tight" style="font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.02em;">
+            Application received.
+          </h2>
+          <p class="mx-auto mt-4 max-w-md font-light text-muted" style="line-height: 1.75;">
+            We’ll review your application carefully. In the meantime:
+          </p>
+
+          <div class="mx-auto mt-10 max-w-sm space-y-4">
+            <p class="text-sm font-medium text-charcoal">Know someone who belongs here?</p>
+            <a href="/nominate" class="inline-block rounded-full bg-charcoal px-8 py-3.5 text-sm font-medium text-cream transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg">
+              Nominate a Friend &rarr;
+            </a>
+
+            <div class="pt-4">
+              <p class="text-sm font-medium text-charcoal">Follow along:</p>
+              <a href="https://instagram.com/delamax" target="_blank" rel="noopener noreferrer" class="mt-2 inline-block text-sm font-light text-gold transition-colors hover:text-charcoal">
+                Instagram &rarr;
+              </a>
+            </div>
+          </div>
+
+          <p class="mt-10 text-xs font-light text-muted">
+            Your application is in our private review queue. We'll be in touch by email.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Error toast -->
+    <div id="apply-error" class="fixed bottom-8 left-1/2 z-50 hidden -translate-x-1/2 rounded-xl border border-red-200 bg-red-50 px-6 py-3 text-sm text-red-600 shadow-lg"></div>
+  </div>
+</Layout>
+
+<style>
+  .step {
+    opacity: 0;
+    transform: translateX(60px);
+    pointer-events: none;
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+  }
+  .step.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+  .step.exit-left {
+    opacity: 0;
+    transform: translateX(-60px);
+    pointer-events: none;
+  }
+  .referral-option.selected {
+    border-color: var(--color-gold);
+    background-color: var(--color-warm-white);
+  }
+</style>
+
+<script>
+  import { db } from '../lib/firebase';
+  import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+
+  const TOTAL_STEPS = 8;
+  let currentStep = 0;
+  let formData: Record<string, string> = {};
+  let isSubmitting = false;
+  let autoSubmitTimeout: ReturnType<typeof setTimeout> | null = null;
+
+  const progressBar = document.getElementById('progress-bar') as HTMLDivElement;
+  const stepLabel = document.getElementById('step-label') as HTMLSpanElement;
+  const backBtn = document.getElementById('back-btn') as HTMLButtonElement;
+  const errorDiv = document.getElementById('apply-error') as HTMLDivElement;
+  const steps = document.querySelectorAll('.step');
+
+  function updateProgress() {
+    const pct = currentStep === 0 ? 0 : (currentStep / (TOTAL_STEPS - 1)) * 100;
+    progressBar.style.width = `${pct}%`;
+    stepLabel.textContent = currentStep === 0 || currentStep === TOTAL_STEPS - 1 ? '' : `${currentStep} of ${TOTAL_STEPS - 2}`;
+    backBtn.classList.toggle('hidden', currentStep === 0 || currentStep === TOTAL_STEPS - 1);
+  }
+
+  function goToStep(n: number) {
+    const current = document.querySelector(`.step[data-step="${currentStep}"]`) as HTMLElement;
+    const next = document.querySelector(`.step[data-step="${n}"]`) as HTMLElement;
+    if (!current || !next) return;
+
+    if (n > currentStep) {
+      current.classList.remove('active');
+      current.classList.add('exit-left');
+    } else {
+      current.classList.remove('active');
+      current.style.transform = 'translateX(60px)';
+      current.style.opacity = '0';
+    }
+
+    next.classList.remove('exit-left');
+    if (n < currentStep) {
+      next.style.transform = 'translateX(-60px)';
+      next.style.opacity = '0';
+    }
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        next.classList.add('active');
+        next.style.transform = '';
+        next.style.opacity = '';
+        current.style.transform = '';
+        current.style.opacity = '';
+      });
+    });
+
+    currentStep = n;
+    updateProgress();
+    trackEvent('application_step_completed', { step: n });
+
+    // Auto-focus first input on new step
+    setTimeout(() => {
+      const firstInput = next.querySelector('input:not([type="hidden"]), textarea, select') as HTMLElement;
+      if (firstInput) firstInput.focus();
+    }, 450);
+  }
+
+  // Enable/disable Continue buttons based on input
+  function setupValidation() {
+    steps.forEach((step) => {
+      const inputs = step.querySelectorAll('input[required], textarea[required], select[required]');
+      const btn = step.querySelector('.apply-next:not(#referral-continue)') as HTMLButtonElement;
+      if (!btn || !inputs.length) return;
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const check = () => {
+        const filled = Array.from(inputs).every((el) => {
+          const input = el as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+          if (input.value.trim() === '') return false;
+          if (input.type === 'email' && !emailRegex.test(input.value.trim())) return false;
+          return true;
+        });
+        btn.disabled = !filled;
+        btn.classList.toggle('opacity-40', !filled);
+        if (filled) {
+          btn.classList.add('hover:-translate-y-0.5', 'hover:shadow-lg');
+        } else {
+          btn.classList.remove('hover:-translate-y-0.5', 'hover:shadow-lg');
+        }
+      };
+
+      inputs.forEach((el) => {
+        el.addEventListener('input', check);
+        el.addEventListener('change', check);
+      });
+    });
+  }
+
+  // Collect form data from current step
+  function collectStepData(stepNum: number) {
+    const step = document.querySelector(`.step[data-step="${stepNum}"]`) as HTMLElement;
+    if (!step) return;
+    const inputs = step.querySelectorAll('input, textarea, select');
+    inputs.forEach((el) => {
+      const input = el as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+      if (input.name) {
+        formData[input.name] = input.value.trim();
+      }
+    });
+  }
+
+  // Next button handlers
+  document.querySelectorAll('.apply-next').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      if ((btn as HTMLButtonElement).disabled) return;
+      collectStepData(currentStep);
+
+      if (currentStep === 6) {
+        submitApplication();
+      } else {
+        goToStep(currentStep + 1);
+      }
+    });
+  });
+
+  // Back button
+  backBtn.addEventListener('click', () => {
+    if (currentStep > 0) goToStep(currentStep - 1);
+  });
+
+  // Keyboard: Enter to advance
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      const activeStep = document.querySelector(`.step[data-step="${currentStep}"]`) as HTMLElement;
+      if (!activeStep) return;
+
+      // Don't advance from textareas on Enter
+      if (document.activeElement?.tagName === 'TEXTAREA') return;
+
+      const btn = activeStep.querySelector('.apply-next') as HTMLButtonElement;
+      if (btn && !btn.disabled) {
+        e.preventDefault();
+        btn.click();
+      }
+    }
+  });
+
+  // Referral option selection
+  document.querySelectorAll('.referral-option').forEach((opt) => {
+    opt.addEventListener('click', () => {
+      document.querySelectorAll('.referral-option').forEach((o) => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      const value = (opt as HTMLElement).dataset.value || '';
+      formData.referralSource = value;
+
+      const refField = document.getElementById('referred-by-field') as HTMLDivElement;
+      const continueBtn = document.getElementById('referral-continue') as HTMLButtonElement;
+
+      if (value === 'A current member') {
+        if (autoSubmitTimeout) clearTimeout(autoSubmitTimeout);
+        refField.classList.remove('hidden');
+        continueBtn.classList.remove('hidden');
+        continueBtn.disabled = false;
+        continueBtn.classList.remove('opacity-40');
+      } else {
+        refField.classList.add('hidden');
+        (document.getElementById('referredBy') as HTMLInputElement).value = '';
+        continueBtn.classList.add('hidden');
+        // Auto-advance for non-member options after brief delay
+        if (autoSubmitTimeout) clearTimeout(autoSubmitTimeout);
+        autoSubmitTimeout = setTimeout(() => {
+          collectStepData(currentStep);
+          submitApplication();
+        }, 300);
+      }
+    });
+  });
+
+  async function submitApplication() {
+    if (isSubmitting) return;
+    isSubmitting = true;
+    if (autoSubmitTimeout) clearTimeout(autoSubmitTimeout);
+    collectStepData(currentStep);
+
+    try {
+      await addDoc(collection(db, 'applications'), {
+        firstName: formData.firstName || '',
+        lastName: formData.lastName || '',
+        email: (formData.email || '').toLowerCase(),
+        age: formData.age || '',
+        gender: formData.gender || '',
+        whatYouDo: formData.whatYouDo || '',
+        whatYouLookFor: formData.whatYouLookFor || '',
+        instagram: formData.instagram || null,
+        linkedin: formData.linkedin || null,
+        referralSource: formData.referralSource || '',
+        referredBy: formData.referredBy || null,
+        createdAt: serverTimestamp(),
+        status: 'pending',
+      });
+
+      trackEvent('application_submitted');
+      goToStep(7);
+    } catch (err) {
+      console.error('Error submitting:', err);
+      isSubmitting = false;
+      errorDiv.textContent = 'Something went wrong. Please try again.';
+      errorDiv.classList.remove('hidden');
+      setTimeout(() => errorDiv.classList.add('hidden'), 4000);
+    }
+  }
+
+  function trackEvent(name: string, params?: Record<string, unknown>) {
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', name, params);
+    }
+  }
+
+  // Init
+  trackEvent('application_started');
+  updateProgress();
+  setupValidation();
+</script>

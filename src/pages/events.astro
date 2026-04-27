@@ -1,0 +1,267 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import NewsletterSignup from '../components/NewsletterSignup.astro';
+
+const events = [
+  {
+    date: 'Apr 18',
+    day: 'Fri',
+    title: 'Sunset Jazz at The Interval',
+    venue: 'The Interval at Long Now',
+    neighborhood: 'Fort Mason',
+    category: 'Music',
+    take: 'The best bar nobody talks about — live jazz, no cover, and cocktails that actually taste like something.',
+  },
+  {
+    date: 'Apr 22',
+    day: 'Tue',
+    title: 'Ceramic Night at Heath',
+    venue: 'Heath Ceramics',
+    neighborhood: 'Mission',
+    category: 'Workshop',
+    take: 'Make something with your hands. Meet someone interesting. Leave with a mug and a story.',
+  },
+  {
+    date: 'Apr 25',
+    day: 'Fri',
+    title: 'Natural Wine & Vinyl Night',
+    venue: 'Ordinaire',
+    neighborhood: 'Oakland',
+    take: 'Orange wine, rare vinyl, and the kind of crowd that knows both. Worth crossing the bridge.',
+    category: 'Social',
+  },
+  {
+    date: 'Apr 27',
+    day: 'Sun',
+    title: 'Dawn Patrol Surf + Coffee',
+    venue: 'Pacifica State Beach',
+    neighborhood: 'Pacifica',
+    category: 'Outdoors',
+    take: 'Early morning session followed by pourover on the beach. You don\'t need to be good — you need to be there.',
+  },
+  {
+    date: 'May 1',
+    day: 'Thu',
+    title: 'Art Opening: "Soft Power"',
+    venue: 'Minnesota Street Project',
+    neighborhood: 'Dogpatch',
+    category: 'Art',
+    take: 'Group show exploring intimacy and influence. Free, uncrowded, and genuinely worth seeing.',
+  },
+  {
+    date: 'May 3',
+    day: 'Sat',
+    title: 'Rooftop Dinner — Chef Collab',
+    venue: 'Private Club Event',
+    neighborhood: 'SoMa',
+    category: 'Club',
+    take: 'Members only. 16 seats. A chef who just left a Michelin kitchen cooking what they actually want to cook.',
+  },
+  {
+    date: 'May 8',
+    day: 'Thu',
+    title: 'Founders\' Fireside: Building in SF',
+    venue: 'The Battery',
+    neighborhood: 'FiDi',
+    category: 'Talk',
+    take: 'Three founders, no slides, honest stories. The kind of conversation you wish happened at conferences.',
+  },
+  {
+    date: 'May 10',
+    day: 'Sat',
+    title: 'Farmers Market → Kitchen Party',
+    venue: 'Ferry Building → Member Home',
+    neighborhood: 'Embarcadero',
+    category: 'Club',
+    take: 'Shop together at the Ferry Building, then cook together at a member\'s home. 12 people. BYOB.',
+  },
+  {
+    date: 'May 15',
+    day: 'Thu',
+    title: 'Film Night: Wong Kar-wai Double Feature',
+    venue: 'Roxie Theater',
+    neighborhood: 'Mission',
+    category: 'Film',
+    take: 'In the Mood for Love + Chungking Express. The kind of movies you want to talk about after with someone good.',
+  },
+  {
+    date: 'May 17',
+    day: 'Sat',
+    title: 'Sauna & Cold Plunge Social',
+    venue: 'Archimedes Banya',
+    neighborhood: 'SoMa',
+    category: 'Wellness',
+    take: 'Nothing strips away pretense like a cold plunge. Surprisingly great for real conversation.',
+  },
+  {
+    date: 'May 22',
+    day: 'Thu',
+    title: 'Bookstore Crawl + Mezcal',
+    venue: 'City Lights → ABV',
+    neighborhood: 'North Beach → Mission',
+    category: 'Social',
+    take: 'Browse books, share finds over mezcal. Literary nerds and curious minds welcome.',
+  },
+  {
+    date: 'May 24',
+    day: 'Sat',
+    title: 'Club Cocktail Evening',
+    venue: 'Private Club Event',
+    neighborhood: 'Pacific Heights',
+    category: 'Club',
+    take: 'The full community. Warm room, easy introductions, and the kind of energy you remember.',
+  },
+];
+
+const categories = ['All', 'Club', 'Social', 'Art', 'Music', 'Outdoors', 'Film', 'Talk', 'Workshop', 'Wellness'];
+---
+
+<Layout
+  title="Events — The Club"
+  description="Curated events in San Francisco worth showing up for. Gallery openings, chef dinners, rooftop sessions, and private club gatherings."
+  canonicalPath="/events"
+>
+  <Nav />
+
+  <main class="bg-cream pt-28 pb-20 px-6">
+    <div class="mx-auto max-w-[1100px]">
+      <!-- Header -->
+      <div class="fade-in-up text-center mb-16">
+        <p class="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-gold">
+          What's happening
+        </p>
+        <h1
+          class="font-serif font-normal leading-tight"
+          style="font-size: clamp(2.4rem, 4.5vw, 3.5rem); letter-spacing: -0.03em;"
+        >
+          The best things happening in San Francisco.
+        </h1>
+        <p class="mx-auto mt-5 max-w-2xl text-base font-light text-muted" style="line-height: 1.75;">
+          A curated calendar of events worth leaving the house for — gallery openings, chef pop-ups, live music, and private club gatherings. Updated weekly.
+        </p>
+      </div>
+
+      <!-- Category filters -->
+      <div class="fade-in-up mb-12 flex flex-wrap justify-center gap-2" id="event-filters">
+        {categories.map((cat) => (
+          <button
+            data-category={cat === 'All' ? 'all' : cat}
+            class:list={[
+              'rounded-full px-4 py-1.5 text-xs font-medium tracking-wide transition-all duration-200',
+              cat === 'All'
+                ? 'bg-charcoal text-cream'
+                : 'border border-divider text-muted hover:border-charcoal hover:text-charcoal',
+            ]}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      <!-- Events list -->
+      <div class="fade-in-up space-y-4" id="events-list">
+        {events.map((event) => (
+          <div
+            class="event-card group flex flex-col gap-4 rounded-2xl border border-divider bg-warm-white p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md sm:flex-row sm:items-start sm:gap-6"
+            data-category={event.category}
+          >
+            <!-- Date block -->
+            <div class="flex items-center gap-3 sm:flex-col sm:items-center sm:gap-0 sm:min-w-[60px]">
+              <span class="text-xs font-medium uppercase tracking-wide text-gold">{event.day}</span>
+              <span class="font-serif text-2xl text-charcoal" style="letter-spacing: -0.02em;">{event.date.split(' ')[1]}</span>
+              <span class="text-xs font-light text-muted sm:mt-0.5">{event.date.split(' ')[0]}</span>
+            </div>
+
+            <!-- Content -->
+            <div class="flex-1">
+              <div class="flex flex-wrap items-center gap-2 mb-1.5">
+                <h3 class="font-serif text-lg text-charcoal" style="letter-spacing: -0.01em;">
+                  {event.title}
+                </h3>
+                {event.category === 'Club' && (
+                  <span class="rounded-full bg-gold/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-gold">
+                    Members Only
+                  </span>
+                )}
+              </div>
+              <p class="text-xs font-medium text-muted/80">
+                {event.venue} · {event.neighborhood}
+              </p>
+              <p class="mt-2 text-sm font-light italic text-muted" style="line-height: 1.7;">
+                {event.take}
+              </p>
+            </div>
+
+            <!-- Category pill (desktop) -->
+            <div class="hidden sm:block">
+              <span class="rounded-full border border-divider px-3 py-1 text-[10px] font-medium uppercase tracking-wider text-muted">
+                {event.category}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Empty state -->
+      <div id="events-empty" class="hidden py-16 text-center">
+        <p class="font-serif text-xl text-muted italic">No events in this category yet.</p>
+        <p class="mt-2 text-sm font-light text-muted/70">Check back soon — we update weekly.</p>
+      </div>
+
+      <!-- Bottom note -->
+      <div class="fade-in-up mt-16 text-center">
+        <p class="font-serif text-lg italic text-muted" style="line-height: 1.75;">
+          Know about something great happening in SF? Tell us at <a href="mailto:hello@powercoupleclub.com" class="underline decoration-gold/40 underline-offset-4 hover:decoration-gold transition-colors">hello@powercoupleclub.com</a>
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <NewsletterSignup />
+  <Footer />
+</Layout>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('#event-filters button');
+    const cards = document.querySelectorAll('.event-card');
+    const emptyState = document.getElementById('events-empty');
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const category = btn.dataset.category;
+
+        // Update button styles
+        buttons.forEach((b) => {
+          b.classList.remove('bg-charcoal', 'text-cream');
+          b.classList.add('border', 'border-divider', 'text-muted', 'hover:border-charcoal', 'hover:text-charcoal');
+        });
+        btn.classList.remove('border', 'border-divider', 'text-muted', 'hover:border-charcoal', 'hover:text-charcoal');
+        btn.classList.add('bg-charcoal', 'text-cream');
+
+        // Filter cards
+        let visibleCount = 0;
+        cards.forEach((card) => {
+          if (category === 'all' || card.dataset.category === category) {
+            card.style.display = '';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        // Show empty state if no matches
+        if (emptyState) {
+          emptyState.classList.toggle('hidden', visibleCount > 0);
+        }
+
+        // GA4 event
+        if (typeof gtag === 'function') {
+          gtag('event', 'events_filtered', { category: category });
+        }
+      });
+    });
+  });
+</script>

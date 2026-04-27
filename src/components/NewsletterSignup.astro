@@ -1,0 +1,97 @@
+---
+---
+<section class="bg-alt-bg px-6 py-20 md:py-24">
+  <div class="fade-in-up mx-auto max-w-[640px] text-center">
+    <p class="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-gold">
+      The Club Letter
+    </p>
+    <h2
+      class="font-serif font-normal leading-tight"
+      style="font-size: clamp(1.8rem, 3.5vw, 2.4rem); letter-spacing: -0.02em;"
+    >
+      The best of SF, in your inbox.
+    </h2>
+    <p class="mx-auto mt-4 max-w-md text-sm font-light text-muted" style="line-height: 1.75;">
+      Occasional updates on launches, gatherings, and when we open new applications.
+    </p>
+
+    <!-- Signup form -->
+    <form id="newsletter-form" class="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+      <input
+        type="email"
+        id="newsletter-email"
+        placeholder="Your email"
+        required
+        class="w-full rounded-full border border-divider bg-warm-white px-5 py-3 text-sm font-light text-charcoal placeholder:text-muted/50 focus:border-gold focus:outline-none sm:w-72"
+      />
+      <button
+        type="submit"
+        id="newsletter-submit"
+        class="w-full rounded-full bg-charcoal px-7 py-3 text-sm font-medium text-cream transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg sm:w-auto"
+      >
+        Subscribe
+      </button>
+    </form>
+
+    <!-- Success state -->
+    <div id="newsletter-success" class="mt-8 hidden">
+      <p class="font-serif text-lg text-charcoal">You’re on the list.</p>
+      <p class="mt-1 text-sm font-light text-muted">We’ll reach out when we have something worth sending.</p>
+    </div>
+
+    <!-- Error state -->
+    <div id="newsletter-error" class="mt-4 hidden">
+      <p class="text-sm text-red-600/80">Something went wrong. Please try again.</p>
+    </div>
+
+    <p class="mt-5 text-[11px] font-light text-muted/60">
+      No spam. Unsubscribe anytime. We keep your email private.
+    </p>
+  </div>
+</section>
+
+<script>
+  import { db } from '../lib/firebase';
+  import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+
+  const form = document.getElementById('newsletter-form') as HTMLFormElement;
+  const emailInput = document.getElementById('newsletter-email') as HTMLInputElement;
+  const submitBtn = document.getElementById('newsletter-submit') as HTMLButtonElement;
+  const successEl = document.getElementById('newsletter-success');
+  const errorEl = document.getElementById('newsletter-error');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = emailInput.value.trim().toLowerCase();
+    if (!email) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Subscribing...';
+    errorEl?.classList.add('hidden');
+
+    try {
+      // Use email as document ID with set+merge for idempotent writes (no read needed)
+      const subscriberRef = doc(db, 'newsletter_subscribers', email);
+      await setDoc(subscriberRef, {
+        email,
+        source: window.location.pathname,
+        updatedAt: serverTimestamp(),
+        status: 'active',
+      }, { merge: true });
+
+      // Show success
+      form.classList.add('hidden');
+      successEl?.classList.remove('hidden');
+
+      // GA4 event
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'newsletter_subscribed', { source: window.location.pathname });
+      }
+    } catch (err) {
+      console.error('Newsletter signup error:', err);
+      errorEl?.classList.remove('hidden');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Subscribe';
+    }
+  });
+</script>

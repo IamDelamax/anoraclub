@@ -1,0 +1,115 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Status Request — The Club"
+  description="Request a private status update for your application."
+  canonicalPath="/status"
+>
+  <Nav />
+
+  <main class="bg-cream px-6 pt-32 pb-28 md:pt-40 md:pb-36">
+    <div class="mx-auto max-w-[520px]">
+      <!-- Header -->
+      <div class="fade-in-up text-center mb-12">
+        <h1
+          class="font-serif font-normal leading-tight"
+          style="font-size: clamp(2rem, 4vw, 2.8rem); letter-spacing: -0.03em;"
+        >
+          Request your status update.
+        </h1>
+        <p class="mt-4 text-sm font-light text-muted" style="line-height: 1.75;">
+          Enter the email you applied with. If we have an application on file, we'll send the latest status to that inbox.
+        </p>
+      </div>
+
+      <!-- Form -->
+      <div class="fade-in-up">
+        <form id="status-form" class="flex flex-col gap-3 sm:flex-row">
+          <input
+            type="email"
+            id="status-email"
+            placeholder="Your email address"
+            required
+            class="flex-1 rounded-full border border-divider bg-warm-white px-5 py-3.5 text-sm font-light text-charcoal placeholder:text-muted/50 focus:border-gold focus:outline-none"
+          />
+          <button
+            type="submit"
+            id="status-submit"
+            class="rounded-full bg-charcoal px-7 py-3.5 text-sm font-medium text-cream transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+          >
+            Request Update
+          </button>
+        </form>
+      </div>
+
+      <!-- Result -->
+      <div id="status-result" class="mt-10 hidden">
+        <div class="rounded-2xl border border-divider bg-warm-white p-8 text-center">
+          <p class="text-xs font-semibold uppercase tracking-[0.15em] text-gold mb-4">
+            Request Received
+          </p>
+          <p class="font-serif text-xl text-charcoal mb-2">We’ll handle this privately.</p>
+          <p class="text-sm font-light text-muted" style="line-height: 1.75;">
+            If we have an application associated with that email, we’ll send the latest status there. For privacy, we never reveal application details directly on this page.
+          </p>
+        </div>
+      </div>
+
+      <!-- Error -->
+      <div id="status-error" class="mt-6 hidden text-center">
+        <p class="text-sm text-red-600/80">Something went wrong. Please try again.</p>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  import { db } from '../lib/firebase';
+  import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
+
+  const form = document.getElementById('status-form') as HTMLFormElement;
+  const emailInput = document.getElementById('status-email') as HTMLInputElement;
+  const submitBtn = document.getElementById('status-submit') as HTMLButtonElement;
+  const resultEl = document.getElementById('status-result');
+  const errorEl = document.getElementById('status-error');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = emailInput.value.trim().toLowerCase();
+    if (!email) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+    resultEl?.classList.add('hidden');
+    errorEl?.classList.add('hidden');
+
+    try {
+      const requestRef = doc(db, 'status_requests', email);
+      await setDoc(requestRef, {
+        email,
+        source: window.location.pathname,
+        requestedAt: serverTimestamp(),
+        status: 'pending',
+      }, { merge: true });
+
+      resultEl?.classList.remove('hidden');
+
+      // GA4 event
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'status_request_submitted');
+      }
+    } catch (err) {
+      console.error('Status request error:', err);
+      errorEl?.classList.remove('hidden');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Request Update';
+    }
+  });
+</script>
