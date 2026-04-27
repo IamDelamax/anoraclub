@@ -226,10 +226,13 @@ import Layout from '../layouts/Layout.astro';
       const btn = step.querySelector('.nom-next') as HTMLButtonElement;
       if (!btn || !inputs.length) return;
 
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       const check = () => {
         const filled = Array.from(inputs).every((el) => {
           const input = el as HTMLInputElement | HTMLTextAreaElement;
-          return input.value.trim() !== '';
+          if (input.value.trim() === '') return false;
+          if (input.type === 'email' && !emailRegex.test(input.value.trim())) return false;
+          return true;
         });
         btn.disabled = !filled;
         btn.classList.toggle('opacity-40', !filled);

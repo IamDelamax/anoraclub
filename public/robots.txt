@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://anoraclub.com/sitemap-index.xml
+Sitemap: https://powercoupleclub.com/sitemap-index.xml
