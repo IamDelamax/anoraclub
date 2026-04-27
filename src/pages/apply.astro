@@ -430,6 +430,7 @@ import Layout from '../layouts/Layout.astro';
         continueBtn.classList.remove('opacity-40');
       } else {
         refField.classList.add('hidden');
+        (document.getElementById('referredBy') as HTMLInputElement).value = '';
         continueBtn.classList.add('hidden');
         // Auto-advance for non-member options after brief delay
         if (autoSubmitTimeout) clearTimeout(autoSubmitTimeout);

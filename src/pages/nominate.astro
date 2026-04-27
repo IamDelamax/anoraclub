@@ -321,7 +321,7 @@ import Layout from '../layouts/Layout.astro';
     try {
       await addDoc(collection(db, 'nominations'), {
         nominatorName: formData.nominatorName || '',
-        nominatorEmail: formData.nominatorEmail || '',
+        nominatorEmail: (formData.nominatorEmail || '').toLowerCase(),
         friendName: formData.friendName || '',
         friendContact: formData.friendContact || '',
         whyGreatFit: formData.whyGreatFit || '',
