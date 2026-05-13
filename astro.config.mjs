@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://powercoupleclub.com',
+  site: 'https://amoraclub.org',
   vite: {
     plugins: [tailwindcss()]
   },

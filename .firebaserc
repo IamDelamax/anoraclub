@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "anoraclub"
+  },
+  "targets": {
+    "anoraclub": {
+      "hosting": {
+        "main": ["anoraclub"],
+        "redirect-anoraclub": ["anoraclub-redirect"],
+        "redirect-powercoupleclub": ["powercoupleclub-redirect"]
+      }
+    }
   }
 }
