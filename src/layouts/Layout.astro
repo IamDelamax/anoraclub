@@ -68,7 +68,7 @@ const ogImage = new URL('/og-image.png', Astro.site);
     <script is:inline>
       (function() {
         var host = window.location.hostname;
-        if (host !== 'amoraclub.org' && host !== 'www.amoraclub.org' && host !== 'localhost') {
+        if (host === 'anoraclub.web.app' || host === 'anoraclub.com' || host === 'www.anoraclub.com' || host === 'powercoupleclub.com' || host === 'www.powercoupleclub.com') {
           window.location.replace('https://amoraclub.org' + window.location.pathname + window.location.search);
         }
       })();
