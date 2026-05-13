@@ -36,7 +36,7 @@ const ogImage = new URL('/og-image.png', Astro.site);
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:site_name" content="Amora Club" />
+    <meta property="og:site_name" content="Power Couple Club" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -54,7 +54,7 @@ const ogImage = new URL('/og-image.png', Astro.site);
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "The Club",
-      "url": "https://amoraclub.org",
+      "url": "https://powercoupleclub.com",
       "description": description,
       "address": {
         "@type": "PostalAddress",
@@ -64,12 +64,12 @@ const ogImage = new URL('/og-image.png', Astro.site);
       }
     })} />
 
-    <!-- Redirect old domains to amoraclub.org -->
+    <!-- Redirect other domains to powercoupleclub.com -->
     <script is:inline>
       (function() {
         var host = window.location.hostname;
-        if (host === 'anoraclub.web.app' || host === 'anoraclub.com' || host === 'www.anoraclub.com' || host === 'powercoupleclub.com' || host === 'www.powercoupleclub.com') {
-          window.location.replace('https://amoraclub.org' + window.location.pathname + window.location.search);
+        if (host === 'anoraclub.web.app' || host === 'anoraclub.com' || host === 'www.anoraclub.com' || host === 'amoraclub.org' || host === 'www.amoraclub.org') {
+          window.location.replace('https://powercoupleclub.com' + window.location.pathname + window.location.search);
         }
       })();
     </script>
